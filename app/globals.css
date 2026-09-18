@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-cairo);
+  --font-display: var(--font-cormorant);
+  --color-night: #0b0614;
+  --color-royal: #160b24;
+  --color-gold: #c9a227;
+  --color-gold-soft: #e8d5a3;
+  --color-cream: #f6f1e8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.page-section {
+  scroll-margin-top: 5.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-night);
+  color: var(--color-cream);
+  font-family: var(--font-cairo), sans-serif;
+  overflow-x: hidden;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.font-display {
+  font-family: var(--font-display), "Times New Roman", serif;
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.gold-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  background: var(--color-gold);
+  color: var(--color-night);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.gold-btn:hover {
+  background: var(--color-gold-soft);
+}
+
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 45%, transparent);
+  color: var(--color-gold);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.ghost-btn:hover {
+  background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+}
+
+@media (max-width: 640px) {
+  .gold-btn,
+  .ghost-btn {
+    min-height: 44px;
+    padding: 0 0.9rem;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+}
+
+.glass {
+  background: color-mix(in srgb, var(--color-royal) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 22%, transparent);
+}
+
+.hero-veil {
+  background: linear-gradient(
+    to top,
+    rgba(11, 6, 20, 0.88) 0%,
+    rgba(11, 6, 20, 0.12) 42%,
+    rgba(11, 6, 20, 0.28) 100%
+  );
+}
+
+.kenburns {
+  animation: kenburns 8s ease-out forwards;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .kenburns {
+    animation: none;
+  }
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-night);
 }
