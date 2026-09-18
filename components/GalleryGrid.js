@@ -45,8 +45,10 @@ export default function GalleryGrid() {
               src={item.src}
               alt={item.alt}
               fill
+              unoptimized
+              quality={100}
               sizes="(max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition duration-700 group-hover:scale-105"
+              className="object-cover"
               style={{ objectPosition: "center 18%" }}
             />
             <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-night to-transparent p-4 text-start text-xs tracking-[0.2em] text-gold uppercase">
@@ -66,6 +68,8 @@ export default function GalleryGrid() {
               src={open.src}
               alt={open.alt}
               fill
+              unoptimized
+              quality={100}
               sizes="100vw"
               className="object-contain"
             />

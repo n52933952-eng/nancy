@@ -23,6 +23,8 @@ export default function NewsView() {
                   src={item.image}
                   alt={item.title.en}
                   fill
+                  unoptimized
+                  quality={100}
                   sizes="(max-width: 640px) 100vw, 33vw"
                   className="object-cover"
                   style={{ objectPosition: "center 25%" }}

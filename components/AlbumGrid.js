@@ -18,8 +18,11 @@ export default function AlbumGrid({ onSelect }) {
                 src={album.cover}
                 alt={album.title.en}
                 fill
-                sizes="(max-width: 640px) 50vw, 25vw"
-                className="object-cover transition duration-700 group-hover:scale-105"
+                unoptimized
+                quality={100}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+                className="object-cover"
+                style={{ objectPosition: "center 20%" }}
               />
             </span>
             <span className="mt-2 block font-display text-base text-cream sm:mt-3 sm:text-2xl">

@@ -84,8 +84,10 @@ export default function HomeSections() {
                     src={clip.poster}
                     alt={clip.title.en}
                     fill
-                    sizes="33vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
+                    unoptimized
+                    quality={100}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
                   />
                   <span className="absolute inset-0 bg-night/20" />
                   <span className="absolute start-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full border border-gold text-gold">
@@ -111,8 +113,10 @@ export default function HomeSections() {
                   src={item.src}
                   alt={item.alt}
                   fill
-                  sizes="16vw"
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  unoptimized
+                  quality={100}
+                  sizes="(max-width: 640px) 50vw, 16vw"
+                  className="object-cover"
                   style={{ objectPosition: "center 18%" }}
                 />
               </Link>
@@ -127,7 +131,15 @@ export default function HomeSections() {
           <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-center">
             <div className="mx-auto w-48 overflow-hidden rounded-full border border-gold/40 p-1 lg:w-full">
               <div className="relative aspect-square overflow-hidden rounded-full">
-                <Image src={biography.portrait} alt="Nancy Ajram" fill sizes="240px" className="object-cover" />
+                <Image
+                  src={biography.portrait}
+                  alt="Nancy Ajram"
+                  fill
+                  unoptimized
+                  quality={100}
+                  sizes="240px"
+                  className="object-cover"
+                />
               </div>
             </div>
             <p className="max-w-2xl text-base leading-8 text-cream/75">{biography.intro[lang]}</p>
@@ -146,7 +158,9 @@ export default function HomeSections() {
                     src={item.image}
                     alt={item.title.en}
                     fill
-                    sizes="33vw"
+                    unoptimized
+                    quality={100}
+                    sizes="(max-width: 640px) 100vw, 33vw"
                     className="object-cover"
                     style={{ objectPosition: "center 25%" }}
                   />

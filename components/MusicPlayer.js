@@ -110,6 +110,8 @@ export default function MusicPlayer() {
               src={cover}
               alt={track ? track.title.en : album.title.en}
               fill
+              unoptimized
+              quality={100}
               sizes="260px"
               className="object-contain"
             />

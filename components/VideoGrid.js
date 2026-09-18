@@ -25,8 +25,10 @@ export default function VideoGrid() {
                 src={clip.poster}
                 alt={clip.title.en}
                 fill
+                unoptimized
+                quality={100}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition duration-700 group-hover:scale-105"
+                className="object-cover"
               />
               <span className="absolute inset-0 bg-night/25" />
               <span className="absolute start-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-full border border-gold text-gold">

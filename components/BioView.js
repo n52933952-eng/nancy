@@ -23,6 +23,8 @@ export default function BioView() {
                   src={biography.portrait}
                   alt="Nancy Ajram"
                   fill
+                  unoptimized
+                  quality={100}
                   sizes="280px"
                   className="object-cover"
                 />
