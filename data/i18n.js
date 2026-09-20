@@ -1,6 +1,7 @@
 export const copy = {
   brandEn: "Nancy Ajram",
   brandAr: "نانسي عجرم",
+  mark: { en: "Icon", ar: "أيقونة" },
   tagline: {
     en: "The Queen of Arab Pop",
     ar: "ملكة البوب العربي",
@@ -50,13 +51,25 @@ export const copy = {
     waiting: { en: "Video file not linked yet.", ar: "ملف الفيديو غير مربوط بعد." },
   },
   galleryPage: {
-    kicker: { en: "Portraits", ar: "صور" },
+    kicker: { en: "The atelier", ar: "الأتيليه" },
     title: { en: "Gallery", ar: "المعرض" },
     subtitle: {
-      en: "Every photo is cropped to the same elegant frame — so mixed sizes still look like one magazine.",
-      ar: "كل صورة تُقصّ في إطار واحد أنيق — حتى لو اختلفت الأحجام.",
+      en: "A private salon of looks. The gold light walks. Open any photo.",
+      ar: "صالون خاص للإطلالات. الضوء الذهبي يمشي. افتحي أي صورة.",
     },
     all: { en: "All", ar: "الكل" },
+    evening: { en: "Evening", ar: "مساء" },
+    soft: { en: "Soft", ar: "ناعم" },
+    stage: { en: "Stage", ar: "مسرح" },
+    close: { en: "Close", ar: "إغلاق" },
+    issue: { en: "Vol. 01  ·  The looks", ar: "العدد ٠١  ·  الإطلالات" },
+    cover: { en: "Cover story", ar: "غلاف" },
+    pageEvening: { en: "After dark", ar: "بعد العتمة" },
+    pageSoft: { en: "In daylight", ar: "في النهار" },
+    quote: {
+      en: "A voice, a dress, a night — and the room becomes hers.",
+      ar: "صوت، فستان، ليلة — والقاعة تصير لها.",
+    },
   },
   bioPage: {
     kicker: { en: "Her story", ar: "حكايتها" },
@@ -93,8 +106,8 @@ export const copy = {
 export const links = [
   { href: "/", key: "home" },
   { href: "/music", key: "music" },
-  { href: "/videos", key: "videos" },
   { href: "/gallery", key: "gallery" },
+  { href: "/videos", key: "videos" },
   { href: "/biography", key: "biography" },
   { href: "/news", key: "news" },
 ];

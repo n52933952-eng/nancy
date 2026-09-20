@@ -4,8 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import AlbumGrid from "@/components/AlbumGrid";
-import { copy } from "@/data/i18n";
-import { biography, gallery, news, videos } from "@/data/media";
+import GallerySlider from "@/components/GallerySlider";
+import VideoLightbox from "@/components/VideoLightbox";
+import { mediaUrl } from "@/data/media";
+import { clearRememberedSection, goToSection, peekRememberedSection } from "@/lib/goToSection";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 function Reveal({ children }) {
@@ -37,146 +40,179 @@ function Reveal({ children }) {
   );
 }
 
-function SectionHead({ kicker, title, href }) {
+function SectionHead({ kicker, title, href, compact = false }) {
   const { lang } = useLang();
+  const { copy } = useContent();
   return (
-    <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+    <div
+      className={`flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between ${
+        compact ? "mb-4" : "mb-8 sm:mb-10"
+      }`}
+    >
       <div>
-        <p className="text-[11px] tracking-[0.35em] text-gold uppercase">{kicker[lang]}</p>
-        <h2 className="mt-2 font-display text-3xl text-cream sm:text-5xl">{title[lang]}</h2>
+        <p
+          className={`tracking-[0.35em] text-gold uppercase ${
+            compact ? "text-[10px]" : "text-[11px]"
+          }`}
+        >
+          {kicker[lang]}
+        </p>
+        <h2
+          className={`mt-1.5 font-display text-cream ${
+            compact ? "text-2xl sm:text-3xl" : "text-3xl sm:text-5xl"
+          }`}
+        >
+          {title[lang]}
+        </h2>
+        <div className={`gold-line-draw ${compact ? "mt-2" : "mt-4"}`} />
       </div>
-      <Link href={href} className="gold-btn w-fit">
-        {copy.explore[lang]}
-      </Link>
+      {href ? (
+        <Link href={href} className="gold-btn relative z-20 w-fit shrink-0">
+          {copy.explore[lang]}
+        </Link>
+      ) : null}
     </div>
   );
 }
 
 export default function HomeSections() {
   const { lang } = useLang();
+  const { copy, biography, gallerySlides, news, videos } = useContent();
+  const [activeClip, setActiveClip] = useState(null);
 
   useEffect(() => {
+    const remembered = peekRememberedSection();
     const hash = window.location.hash.replace("#", "");
-    if (!hash) return undefined;
+    const key = remembered || (hash && hash !== "home" ? hash : "");
+    if (!key) return undefined;
+
     const timer = window.setTimeout(() => {
-      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 80);
+      goToSection(key);
+      clearRememberedSection();
+    }, 250);
     return () => window.clearTimeout(timer);
   }, []);
 
   return (
-    <div className="bg-night">
-      <section id="music" className="page-section mx-auto max-w-7xl px-4 py-20 sm:px-8">
-        <Reveal>
-          <SectionHead kicker={copy.musicPage.kicker} title={copy.musicPage.title} href="/music" />
-          <AlbumGrid />
-        </Reveal>
+    <div>
+      <section id="music" className="band-gold page-section">
+        <div className="mx-auto max-w-7xl px-4 pb-16 pt-3 sm:px-8">
+          <Reveal>
+            <SectionHead compact kicker={copy.musicPage.kicker} title={copy.musicPage.title} />
+            <AlbumGrid compact />
+          </Reveal>
+        </div>
       </section>
 
-      <section id="videos" className="page-section mx-auto max-w-7xl px-4 py-20 sm:px-8">
-        <Reveal>
-          <SectionHead kicker={copy.videosPage.kicker} title={copy.videosPage.title} href="/videos" />
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {videos.map((clip) => (
-              <Link key={clip.id} href="/videos" className="group">
-                <span className="relative block aspect-video overflow-hidden bg-royal">
-                  <Image
-                    src={clip.poster}
-                    alt={clip.title.en}
-                    fill
-                    unoptimized
-                    quality={100}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                  <span className="absolute inset-0 bg-night/20" />
-                  <span className="absolute start-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full border border-gold text-gold">
-                    ▶
+      <section id="gallery" className="band-gold page-section">
+        <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-8">
+          <Reveal>
+            <SectionHead
+              compact
+              kicker={copy.galleryPage.kicker}
+              title={copy.galleryPage.title}
+              href="/gallery"
+            />
+          </Reveal>
+          <GallerySlider items={gallerySlides} />
+        </div>
+      </section>
+
+      <section id="videos" className="band-plum page-section">
+        <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-8">
+          <Reveal>
+            <SectionHead compact kicker={copy.videosPage.kicker} title={copy.videosPage.title} href="/videos" />
+            <div className="videos-stage grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {videos.slice(0, 3).map((clip) => (
+                <button
+                  key={clip.id}
+                  type="button"
+                  onClick={() => setActiveClip(clip)}
+                  className="group text-start"
+                >
+                  <span className="photo-tile relative block aspect-video">
+                    <Image
+                      src={mediaUrl(clip.poster)}
+                      alt={clip.title.en}
+                      fill
+                      unoptimized
+                      quality={100}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="photo-shot object-cover"
+                      style={{ objectPosition: clip.posterPosition || "center 18%" }}
+                    />
+                    <span className="absolute inset-0 bg-night/20" />
+                    <span className="play-pulse absolute start-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full border border-gold text-gold">
+                      ▶
+                    </span>
                   </span>
-                </span>
-                <span className="mt-3 block font-display text-xl text-cream">
-                  {clip.title[lang]}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      <section id="gallery" className="page-section mx-auto max-w-7xl px-4 py-20 sm:px-8">
-        <Reveal>
-          <SectionHead kicker={copy.galleryPage.kicker} title={copy.galleryPage.title} href="/gallery" />
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {gallery.slice(0, 6).map((item) => (
-              <Link key={item.src} href="/gallery" className="group relative aspect-[3/4] overflow-hidden">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  unoptimized
-                  quality={100}
-                  sizes="(max-width: 640px) 50vw, 16vw"
-                  className="object-cover"
-                  style={{ objectPosition: "center 18%" }}
-                />
-              </Link>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      <section id="biography" className="page-section mx-auto max-w-7xl px-4 py-20 sm:px-8">
-        <Reveal>
-          <SectionHead kicker={copy.bioPage.kicker} title={copy.bioPage.title} href="/biography" />
-          <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-center">
-            <div className="mx-auto w-48 overflow-hidden rounded-full border border-gold/40 p-1 lg:w-full">
-              <div className="relative aspect-square overflow-hidden rounded-full">
-                <Image
-                  src={biography.portrait}
-                  alt="Nancy Ajram"
-                  fill
-                  unoptimized
-                  quality={100}
-                  sizes="240px"
-                  className="object-cover"
-                />
-              </div>
+                  <span className="mt-3 block font-display text-xl text-cream">
+                    {clip.title[lang]}
+                  </span>
+                </button>
+              ))}
             </div>
-            <p className="max-w-2xl text-base leading-8 text-cream/75">{biography.intro[lang]}</p>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
+        <VideoLightbox clip={activeClip} onClose={() => setActiveClip(null)} />
       </section>
 
-      <section id="news" className="page-section mx-auto max-w-7xl px-4 py-20 sm:px-8">
-        <Reveal>
-          <SectionHead kicker={copy.newsPage.kicker} title={copy.newsPage.title} href="/news" />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {news.map((item) => (
-              <Link key={item.id} href="/news" className="overflow-hidden border border-gold/20 bg-royal">
-                <span className="relative block aspect-[16/10]">
+      <section id="biography" className="band-plum page-section">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
+          <Reveal>
+            <SectionHead kicker={copy.bioPage.kicker} title={copy.bioPage.title} href="/biography" />
+            <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-center">
+              <div className="mx-auto w-48 overflow-hidden rounded-full border border-gold/40 p-1 lg:w-full">
+                <div className="relative aspect-square overflow-hidden rounded-full">
                   <Image
-                    src={item.image}
-                    alt={item.title.en}
+                    src={mediaUrl(biography.portrait)}
+                    alt="Nancy Ajram"
                     fill
                     unoptimized
                     quality={100}
-                    sizes="(max-width: 640px) 100vw, 33vw"
+                    sizes="240px"
                     className="object-cover"
-                    style={{ objectPosition: "center 25%" }}
                   />
-                </span>
-                <span className="block p-5">
-                  <span className="block text-[11px] tracking-[0.2em] text-gold uppercase">
-                    {item.date}
+                </div>
+              </div>
+              <p className="max-w-2xl text-base leading-8 text-cream/75">{biography.intro[lang]}</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="news" className="band-gold page-section">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
+          <Reveal>
+            <SectionHead kicker={copy.newsPage.kicker} title={copy.newsPage.title} href="/news" />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {news.map((item) => (
+                <Link key={item.id} href="/news" className="group">
+                  <span className="photo-tile relative block aspect-[16/10]">
+                    <Image
+                      src={mediaUrl(item.image)}
+                      alt={item.title.en}
+                      fill
+                      unoptimized
+                      quality={100}
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      className="photo-shot object-cover"
+                      style={{ objectPosition: "center 25%" }}
+                    />
                   </span>
-                  <span className="mt-2 block font-display text-2xl text-cream">
-                    {item.title[lang]}
+                  <span className="block p-5">
+                    <span className="block text-[11px] tracking-[0.2em] text-gold uppercase">
+                      {item.date}
+                    </span>
+                    <span className="mt-2 block font-display text-2xl text-cream">
+                      {item.title[lang]}
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Reveal>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
     </div>
   );

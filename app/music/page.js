@@ -12,7 +12,7 @@ export default function MusicPage() {
   return (
     <>
       <Navbar />
-      <main className="pb-16">
+      <main className="band-gold pb-16">
         <Suspense>
           <MusicPlayer />
         </Suspense>

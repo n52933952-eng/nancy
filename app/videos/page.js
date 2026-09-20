@@ -1,7 +1,6 @@
+import ContentHeader from "@/components/ContentHeader";
 import Navbar from "@/components/Navbar";
-import PageHeader from "@/components/PageHeader";
 import VideoGrid from "@/components/VideoGrid";
-import { copy } from "@/data/i18n";
 
 export const metadata = {
   title: "Videos",
@@ -14,7 +13,7 @@ export default function VideosPage() {
     <>
       <Navbar />
       <main className="pb-20">
-        <PageHeader {...copy.videosPage} />
+        <ContentHeader page="videosPage" />
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <VideoGrid />
         </div>

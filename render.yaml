@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nancy-ajram
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_CDN_URL
+        value: https://pub-d918eaf6d1224425b84c52d14cc1b420.r2.dev
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false

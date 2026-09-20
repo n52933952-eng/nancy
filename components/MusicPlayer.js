@@ -3,10 +3,9 @@
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import AlbumGrid from "@/components/AlbumGrid";
-import { copy } from "@/data/i18n";
-import { albums, mediaUrl } from "@/data/media";
+import { mediaUrl } from "@/data/media";
 import { pauseHome } from "@/lib/homeAudio";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 function formatTime(value) {
@@ -20,6 +19,7 @@ function formatTime(value) {
 
 export default function MusicPlayer() {
   const { lang } = useLang();
+  const { albums } = useContent();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [album, setAlbum] = useState(null);
@@ -35,14 +35,18 @@ export default function MusicPlayer() {
   useEffect(() => {
     const id = searchParams.get("album");
     if (!id) {
-      setAlbum(null);
+      router.replace("/");
       return;
     }
     const next = albums.find((item) => item.id === id) || null;
+    if (!next) {
+      router.replace("/");
+      return;
+    }
     setAlbum(next);
     setCurrent(0);
     setPlaying(false);
-  }, [searchParams]);
+  }, [albums, router, searchParams]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -69,45 +73,21 @@ export default function MusicPlayer() {
     }
   }, [playing, src]);
 
-  function openAlbum(next) {
-    if (!next) {
-      router.push("/music");
-      return;
-    }
-    router.push(`/music?album=${next.id}`);
-  }
-
   function select(i) {
     if (!album) return;
     setCurrent(i);
     setPlaying(Boolean(mediaUrl(album.tracks[i].file)));
   }
 
-  if (!album) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 pt-24 pb-8 sm:px-8">
-        <p className="text-[11px] tracking-[0.35em] text-gold uppercase">
-          {copy.musicPage.kicker[lang]}
-        </p>
-        <h1 className="mt-2 font-display text-4xl text-cream">{copy.musicPage.title[lang]}</h1>
-        <div className="mt-8">
-          <AlbumGrid onSelect={openAlbum} />
-        </div>
-      </div>
-    );
-  }
+  if (!album) return null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-20 sm:px-8">
-      <button type="button" onClick={() => openAlbum(null)} className="ghost-btn mb-4 min-h-9 px-3">
-        {copy.musicPage.back[lang]}
-      </button>
-
       <div className="grid items-start gap-5 sm:grid-cols-[260px_minmax(0,1fr)]">
         <div>
-          <div className="relative mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden bg-night sm:max-w-none">
+          <div className="photo-tile relative mx-auto aspect-[3/4] w-full max-w-[200px] sm:max-w-none">
             <Image
-              src={cover}
+              src={mediaUrl(cover)}
               alt={track ? track.title.en : album.title.en}
               fill
               unoptimized

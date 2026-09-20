@@ -1,0 +1,7 @@
+name = "nancy-admin-api"
+main = "src/index.js"
+compatibility_date = "2026-09-19"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "nancy-media"

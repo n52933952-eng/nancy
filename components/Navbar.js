@@ -1,66 +1,105 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { copy, links } from "@/data/i18n";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { goToSection, rememberSection } from "@/lib/goToSection";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 function hrefFor(item) {
   if (item.key === "home") return "/";
-  return `/#${item.key}`;
+  if (item.key === "music") return "/#music";
+  return item.href;
 }
 
-function scrollToSection(key) {
-  if (key === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    history.replaceState(null, "", "/");
-    return;
-  }
-  const el = document.getElementById(key);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.replaceState(null, "", `/#${key}`);
-  }
-}
-
-export default function Navbar({ transparent = false }) {
+export default function Navbar({ transparent = false, theme = null }) {
   const { lang, setLang } = useLang();
+  const { copy, links } = useContent();
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [liveTheme, setLiveTheme] = useState(theme);
+  const themeRef = useRef(theme);
+  const activeTheme = liveTheme || theme;
+  const themed = Boolean(transparent && activeTheme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+    setLiveTheme(theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (!transparent) return undefined;
+    function onHeroTheme(event) {
+      if (!themeRef.current) return;
+      setLiveTheme(event.detail);
+    }
+    window.addEventListener("nancy-hero-theme", onHeroTheme);
+    return () => window.removeEventListener("nancy-hero-theme", onHeroTheme);
+  }, [transparent]);
 
   function onNavClick(event, item) {
-    if (pathname !== "/") return;
-    event.preventDefault();
     setOpen(false);
-    scrollToSection(item.key);
+
+    if (item.key === "home") {
+      if (pathname === "/") {
+        event.preventDefault();
+        goToSection("home");
+      }
+      return;
+    }
+
+    if (item.key === "music") {
+      event.preventDefault();
+      if (pathname === "/") {
+        goToSection("music");
+        return;
+      }
+      rememberSection("music");
+      router.push("/");
+      return;
+    }
+
+    if (pathname === "/") {
+      event.preventDefault();
+      goToSection(item.key);
+    }
   }
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 ${
-          transparent ? "bg-transparent" : "bg-night/80 backdrop-blur-md"
-        }`}
+        className={`fixed inset-x-0 top-0 z-50 ${themed ? "nav-on-hero" : ""} ${
+          transparent && !themed ? "bg-transparent" : ""
+        } ${transparent ? "" : "bg-night/80 backdrop-blur-md"}`}
+        data-bar={themed ? activeTheme.bar : undefined}
+        style={
+          themed
+            ? {
+                "--nav-ink": activeTheme.ink,
+                "--nav-accent": activeTheme.accent,
+              }
+            : undefined
+        }
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 pt-[env(safe-area-inset-top)] sm:h-20 sm:px-8">
           <Link
             href="/"
-            className="flex items-baseline gap-2"
+            className="nav-brand flex items-baseline gap-2"
             onClick={(event) => {
               if (pathname === "/") {
                 event.preventDefault();
                 setOpen(false);
-                scrollToSection("home");
+                goToSection("home");
               } else {
                 setOpen(false);
               }
             }}
           >
-            <span className="font-display text-lg tracking-[0.28em] text-gold uppercase sm:text-xl">
-              Nancy
+            <span className="nav-brand-en font-display text-lg tracking-[0.28em] uppercase sm:text-xl">
+              {copy.mark[lang]}
             </span>
-            <span className="hidden text-sm text-gold-soft/80 sm:inline">عجرم</span>
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">
@@ -74,8 +113,8 @@ export default function Navbar({ transparent = false }) {
                   key={item.key}
                   href={hrefFor(item)}
                   onClick={(event) => onNavClick(event, item)}
-                  className={`text-[11px] tracking-[0.22em] uppercase transition ${
-                    active ? "text-gold" : "text-cream/75 hover:text-gold"
+                  className={`nav-link text-[11px] tracking-[0.22em] uppercase ${
+                    active ? "nav-link-active" : ""
                   }`}
                 >
                   {copy.nav[item.key][lang]}
@@ -88,7 +127,7 @@ export default function Navbar({ transparent = false }) {
             <button
               type="button"
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
-              className="border border-gold/40 px-3 py-1 text-[10px] tracking-[0.2em] text-gold uppercase"
+              className="nav-lang border px-3 py-1 text-[10px] tracking-[0.2em] uppercase"
               aria-label="Change language"
             >
               {lang === "en" ? "عربي" : "EN"}
@@ -99,13 +138,13 @@ export default function Navbar({ transparent = false }) {
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
-              <span className={`h-px w-5 bg-gold transition ${open ? "translate-y-1 rotate-45" : ""}`} />
-              <span className={`h-px w-5 bg-gold transition ${open ? "opacity-0" : ""}`} />
-              <span className={`h-px w-5 bg-gold transition ${open ? "-translate-y-1 -rotate-45" : ""}`} />
+              <span className={`nav-bar h-px w-5 transition ${open ? "translate-y-1 rotate-45" : ""}`} />
+              <span className={`nav-bar h-px w-5 transition ${open ? "opacity-0" : ""}`} />
+              <span className={`nav-bar h-px w-5 transition ${open ? "-translate-y-1 -rotate-45" : ""}`} />
             </button>
           </div>
         </div>
-        <div className="gold-line opacity-40" />
+        {transparent ? null : <div className="gold-line opacity-40" />}
       </header>
 
       {open ? (

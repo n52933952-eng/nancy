@@ -3,28 +3,42 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { copy } from "@/data/i18n";
-import { homeTheme, mediaUrl, slides } from "@/data/media";
-import { getHomeAudio, pauseHome, resumeHome, tryPlay } from "@/lib/homeAudio";
+import { mediaUrl } from "@/data/media";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 const INTERVAL = 3200;
 
-export default function HeroSlider() {
+function Letters({ text, className, delay = 0 }) {
+  return (
+    <span className={className}>
+      {Array.from(text).map((char, i) => (
+        <span key={`${char}-${i}`} style={{ "--i": i, "--delay": `${delay}ms` }}>
+          {char === " " ? "\u00a0" : char}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+export default function HeroSlider({ onTheme }) {
   const { lang } = useLang();
+  const { slides, copy } = useContent();
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [playing, setPlaying] = useState(false);
   const startX = useRef(0);
-  const themeUrl = mediaUrl(homeTheme.file);
+  const slide = slides[index] || slides[0];
 
-  const go = useCallback((next) => {
-    setIndex((current) => {
-      const total = slides.length;
-      return (next + total) % total;
-    });
-    setProgress(0);
-  }, []);
+  const go = useCallback(
+    (next) => {
+      setIndex((current) => {
+        const total = slides.length || 1;
+        return (next + total) % total;
+      });
+      setProgress(0);
+    },
+    [slides.length],
+  );
 
   useEffect(() => {
     const started = Date.now();
@@ -40,33 +54,9 @@ export default function HeroSlider() {
   }, [go, index]);
 
   useEffect(() => {
-    const audio = getHomeAudio(themeUrl);
-    if (!audio) return undefined;
-
-    const onPlaying = () => setPlaying(true);
-    const onPause = () => setPlaying(false);
-    audio.addEventListener("playing", onPlaying);
-    audio.addEventListener("pause", onPause);
-    tryPlay();
-
-    return () => {
-      audio.removeEventListener("playing", onPlaying);
-      audio.removeEventListener("pause", onPause);
-    };
-  }, [themeUrl]);
-
-  function toggleMute(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const audio = getHomeAudio(themeUrl);
-    if (!audio) return;
-    if (!audio.paused) {
-      pauseHome();
-      setPlaying(false);
-      return;
-    }
-    resumeHome();
-  }
+    onTheme?.(slide.theme);
+    if (slide.theme) window.dispatchEvent(new CustomEvent("nancy-hero-theme", { detail: slide.theme }));
+  }, [onTheme, slide?.theme]);
 
   function onTouchStart(event) {
     startX.current = event.changedTouches[0].clientX;
@@ -77,6 +67,8 @@ export default function HeroSlider() {
     if (Math.abs(delta) < 50) return;
     go(index + (delta < 0 ? 1 : -1));
   }
+
+  if (!slide) return null;
 
   return (
     <section
@@ -93,7 +85,7 @@ export default function HeroSlider() {
           }`}
         >
           <Image
-            src={slide.src}
+            src={mediaUrl(slide.src)}
             alt=""
             fill
             priority={i === 0}
@@ -106,7 +98,7 @@ export default function HeroSlider() {
           />
           <div className="absolute inset-0 bg-night/45" />
           <Image
-            src={slide.src}
+            src={mediaUrl(slide.src)}
             alt={slide.alt}
             fill
             priority={i === 0}
@@ -116,56 +108,59 @@ export default function HeroSlider() {
             className="object-contain"
             style={{ objectPosition: "center center" }}
           />
+          {i === index ? (
+            <>
+              <div className="hero-glow absolute inset-0" />
+              <div className="hero-shine absolute inset-0" />
+            </>
+          ) : null}
         </div>
       ))}
 
       <div className="hero-veil pointer-events-none absolute inset-0" />
 
-      <div className="pointer-events-none relative z-10 flex h-full flex-col justify-end px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-10 sm:pb-20 lg:px-16">
-        <p className="text-[10px] tracking-[0.35em] text-gold uppercase sm:text-[11px] sm:tracking-[0.45em]">
-          {copy.unofficial[lang]}
-        </p>
-        <h1 className="mt-2 font-display text-4xl leading-none text-cream sm:mt-3 sm:text-7xl lg:text-8xl">
-          {copy.brandEn}
-        </h1>
-        <p className="mt-1 font-display text-2xl text-gold-soft sm:mt-2 sm:text-5xl">{copy.brandAr}</p>
-        <p className="mt-2 text-xs tracking-[0.2em] text-cream/70 uppercase sm:mt-4 sm:text-base sm:tracking-[0.28em]">
-          {copy.tagline[lang]}
-        </p>
-        <p className="mt-2 text-sm text-gold/90 sm:mt-3">{slides[index].caption[lang]}</p>
+      <div
+        className="hero-copy pointer-events-none relative z-10 flex h-full flex-col justify-end px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-10 sm:pb-20 lg:px-16"
+        style={{
+          "--slide-ink": slide.theme?.ink,
+          "--slide-accent": slide.theme?.accent,
+        }}
+      >
+        <div key={slide.src} className="hero-copy-in">
+          <p className="hero-kicker">{copy.unofficial[lang]}</p>
+          <h1 className="hero-title">
+            <Letters text="Nancy" className="hero-first" />
+            <Letters text="Ajram" className="hero-last" delay={220} />
+          </h1>
+          <p className="hero-ar">{copy.brandAr}</p>
+          <span className="hero-rule" />
+          <p className="hero-tag">{copy.tagline[lang]}</p>
+          <p className="hero-caption">{slide.caption[lang]}</p>
+        </div>
 
         <div className="pointer-events-auto mt-5 flex flex-wrap items-center gap-2 sm:mt-8 sm:gap-4">
-          <Link href="/music" className="gold-btn">
+          <Link href="/#music" className="gold-btn hero-btn">
             {copy.listen[lang]}
           </Link>
-          <Link href="/videos" className="ghost-btn">
+          <Link href="/videos" className="ghost-btn hero-btn-ghost">
             {copy.watch[lang]}
           </Link>
-          <button
-            type="button"
-            data-sound-toggle
-            onClick={toggleMute}
-            className="ghost-btn"
-            aria-label={playing ? copy.mute[lang] : copy.unmute[lang]}
-          >
-            {playing ? copy.mute[lang] : copy.unmute[lang]}
-          </button>
         </div>
 
         <div className="pointer-events-auto mt-5 flex items-center gap-1.5 sm:mt-10 sm:gap-2">
-          {slides.map((slide, i) => (
+          {slides.map((item, i) => (
             <button
-              key={slide.src}
+              key={item.src}
               type="button"
               aria-label={`Photo ${i + 1}`}
               onClick={() => {
                 setIndex(i);
                 setProgress(0);
               }}
-              className="relative h-[2px] flex-1 max-w-16 overflow-hidden bg-white/20"
+              className="hero-tick relative h-[2px] flex-1 max-w-16 overflow-hidden"
             >
               <span
-                className="absolute inset-y-0 start-0 bg-gold"
+                className="hero-tick-fill absolute inset-y-0 start-0"
                 style={{
                   width: i < index ? "100%" : i === index ? `${progress}%` : "0%",
                 }}

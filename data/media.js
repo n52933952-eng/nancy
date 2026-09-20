@@ -6,84 +6,117 @@ export function mediaUrl(path) {
   return `/${path.replace(/^\//, "")}`;
 }
 
+export const heroTone = {
+  night: { ink: "#f7f0e4", accent: "#d4af37", bar: "dark" },
+  teal: { ink: "#f4fff9", accent: "#2ec4b0", bar: "dark" },
+  coffee: { ink: "#f7f0e4", accent: "#f0d48a", bar: "dark" },
+  ivory: { ink: "#1c120c", accent: "#d4af37", bar: "light" },
+  rouge: { ink: "#fff6f2", accent: "#ffb3b3", bar: "dark" },
+  cream: { ink: "#1c120c", accent: "#8a5a20", bar: "light" },
+  blue: { ink: "#f4f8ff", accent: "#8ec5ff", bar: "dark" },
+  rose: { ink: "#fff4f7", accent: "#f0a3b4", bar: "dark" },
+  tiffany: { ink: "#f3fffc", accent: "#5fd4c4", bar: "dark" },
+  gold: { ink: "#fff8e6", accent: "#f0d48a", bar: "dark" },
+};
+
 export const slides = [
+  {
+    src: "/images/gallery-11.jpg",
+    position: "center 12%",
+    alt: "Nancy Ajram in a teal evening gown",
+    caption: { en: "Emerald night", ar: "ليلة الزمرد" },
+    theme: heroTone.teal,
+  },
   {
     src: "/images/slide-coffee.jpg",
     position: "center 22%",
     alt: "Nancy Ajram with coffee",
     caption: { en: "Quiet glamour", ar: "أناقة هادئة" },
+    theme: heroTone.coffee,
   },
   {
     src: "/images/slide-red.jpg",
     position: "center 18%",
     alt: "Nancy Ajram in white on red",
     caption: { en: "Red velvet", ar: "أحمر المخمل" },
+    theme: heroTone.rouge,
   },
   {
     src: "/images/slide-lounge.jpg",
     position: "center 22%",
     alt: "Nancy Ajram in a cream sweater",
     caption: { en: "Soft light", ar: "ضوء ناعم" },
+    theme: heroTone.night,
   },
   {
     src: "/images/slide-blue-glam.jpg",
     position: "center 18%",
     alt: "Nancy Ajram on a blue backdrop",
     caption: { en: "Night blue", ar: "أزرق الليل" },
+    theme: heroTone.blue,
   },
   {
     src: "/images/slide-flowers.jpg",
     position: "center 18%",
     alt: "Nancy Ajram in a black dress with flowers",
     caption: { en: "Evening roses", ar: "ورود المساء" },
+    theme: heroTone.rose,
   },
   {
     src: "/images/slide-tiffany-blue.jpg",
     position: "center 16%",
     alt: "Nancy Ajram in a diamond necklace",
     caption: { en: "Tiffany night", ar: "ليلة تيفاني" },
+    theme: heroTone.tiffany,
   },
   {
     src: "/images/slide-tiffany-gold.webp",
     position: "center 18%",
     alt: "Nancy Ajram at a Tiffany event",
     caption: { en: "Gold letters", ar: "حروف ذهبية" },
+    theme: heroTone.gold,
   },
   {
     src: "/images/slide-fur.jpg",
     position: "center 18%",
     alt: "Nancy Ajram portrait",
     caption: { en: "The icon", ar: "الأيقونة" },
+    theme: heroTone.night,
   },
   {
     src: "/images/slide-street.jpg",
     position: "center 22%",
     alt: "Nancy Ajram in a white dress",
     caption: { en: "Lebanon light", ar: "نور لبنان" },
+    theme: heroTone.night,
   },
   {
     src: "/images/slide-box.jpg",
     position: "center 20%",
     alt: "Nancy Ajram with a jewelry box",
     caption: { en: "A quiet sparkle", ar: "بريق هادئ" },
+    theme: heroTone.gold,
   },
   {
     src: "/images/slide-jewels.jpg",
     position: "center 18%",
     alt: "Nancy Ajram in jewels",
     caption: { en: "Diamonds", ar: "ألماس" },
+    theme: heroTone.night,
   },
   {
     src: "/images/slide-gala.webp",
     position: "center 16%",
     alt: "Nancy Ajram at a gala",
     caption: { en: "On stage & beyond", ar: "على المسرح وخارجه" },
+    theme: heroTone.gold,
   },
   {
     src: "/images/slide-closeup.jpg",
     position: "center center",
     alt: "Nancy Ajram close-up",
     caption: { en: "A voice of a generation", ar: "صوت جيل" },
+    theme: heroTone.night,
   },
 ];
 
@@ -98,6 +131,8 @@ export const albums = [
     title: { en: "Ah W Noss", ar: "آه ونص" },
     year: 2004,
     cover: "/images/album-ah-w-noss.jpg",
+    coverPosition: "center 48%",
+    coverScale: 1.24,
     tracks: [
       { id: "ah-w-noss", title: { en: "Ah W Noss", ar: "آه ونص" }, file: "audio/ah-w-noss/ah-w-noss.mp3" },
       { id: "hobak-liya", title: { en: "Hobak Liya", ar: "حبك ليا" }, file: "audio/ah-w-noss/hobak-liya.mp3", cover: "/images/track-hobak-liya.jpg" },
@@ -113,6 +148,7 @@ export const albums = [
     title: { en: "Ya Tabtab... Wa Dallaa", ar: "يا طبطب ودلع" },
     year: 2006,
     cover: "/images/album-ya-tabtab.jpg",
+    coverPosition: "center 22%",
     tracks: [
       { id: "ya-tabtab", title: { en: "Ya Tabtab", ar: "يا طبطب" }, file: "audio/ya-tabtab/ya-tabtab.mp3" },
       { id: "moegaba", title: { en: "Moegaba", ar: "معجبة" }, file: "audio/ya-tabtab/moegaba.mp3", cover: "/images/track-moegaba.jpg" },
@@ -130,6 +166,8 @@ export const albums = [
     title: { en: "Betfakkar Fi Eih", ar: "بتفكر في إيه" },
     year: 2008,
     cover: "/images/album-betfakkar-mic.jpg",
+    coverPosition: "center 46%",
+    coverScale: 1.22,
     tracks: [
       { id: "betfakkar-fi-eih", title: { en: "Betfakkar Fi Eih", ar: "بتفكر في إيه" }, file: "audio/betfakkar/betfakkar-fi-eih.mp3" },
       { id: "ibn-el-jiran", title: { en: "Ibn El Jiran", ar: "ابن الجيران" }, file: "audio/betfakkar/ibn-el-jiran.mp3", cover: "/images/track-ibn-el-jiran.jpg" },
@@ -144,6 +182,7 @@ export const albums = [
     title: { en: "OK", ar: "أوكي" },
     year: 2010,
     cover: "/images/album-ok.jpg",
+    coverPosition: "center 18%",
     tracks: [
       { id: "fi-hagat", title: { en: "Fi Hagat", ar: "في حاجات" }, file: "audio/nancy-7/fi-hagat.mp3", cover: "/images/track-fi-hagat.webp" },
       { id: "sheikh-el-shabab", title: { en: "Sheikh El Shabab", ar: "شيخ الشباب" }, file: "audio/nancy-7/sheikh-el-shabab.mp3", cover: "/images/track-sheikh-el-shabab.jpg" },
@@ -158,6 +197,7 @@ export const albums = [
     title: { en: "Nancy 8", ar: "نانسي ٨" },
     year: 2014,
     cover: "/images/album-nancy-8.jpg",
+    coverPosition: "center 16%",
     tracks: [
       { id: "ma-tegi-hena", title: { en: "Ma Tegi Hena", ar: "ما تيجي هنا" }, file: "audio/nancy-8/ma-tegi-hena.mp3", cover: "/images/track-ma-tegi-hena.jpg" },
       { id: "mouch-fara-ktir", title: { en: "Mouch Fara Ktir", ar: "مش فارقة كتير" }, file: "audio/nancy-8/mouch-fara-ktir.mp3", cover: "/images/track-mouch-fara-ktir.jpg" },
@@ -176,6 +216,7 @@ export const albums = [
     title: { en: "Nancy 9", ar: "نانسي ٩" },
     year: 2017,
     cover: "/images/album-nancy-9-wind.jpg",
+    coverPosition: "center 32%",
     tracks: [
       { id: "hassa-beek", title: { en: "Hassa Beek", ar: "حاسة بيك" }, file: "audio/nancy-9/hassa-beek.mp3", cover: "/images/track-hassa-beek.jpg" },
       { id: "helm-el-banat", title: { en: "Helm El Banat", ar: "حلم البنات" }, file: "audio/nancy-9/helm-el-banat.mp3", cover: "/images/track-helm-el-banat.jpg" },
@@ -191,10 +232,15 @@ export const albums = [
     id: "nancy-10",
     title: { en: "Nancy 10", ar: "نانسي ١٠" },
     year: 2021,
-    cover: "/images/slide-coffee.jpg",
+    cover: "/images/album-nancy-10.webp",
+    coverPosition: "center 18%",
     tracks: [
-      { id: "aam-betaala", title: { en: "Aam Betaala' Feek", ar: "عم بتقلق فيك" }, file: "audio/nancy-10/aam-betaala.mp3" },
-      { id: "salamat", title: { en: "Salamat", ar: "سلامات" }, file: "audio/nancy-10/salamat.mp3" },
+      { id: "salamat", title: { en: "Salamat", ar: "سلامات" }, file: "audio/nancy-10/salamat.mp3", cover: "/images/track-salamat.jpg" },
+      { id: "badde-hada-hebbou", title: { en: "Badde Hada Hebbou", ar: "بدي حدا حبو" }, file: "audio/nancy-10/badde-hada-hebbou.mp3", cover: "/images/track-badde-hada-hebbou.jpg" },
+      { id: "hobak-yeqawwini", title: { en: "Hobak Yeqawwini", ar: "حبك يقويني" }, file: "audio/nancy-10/hobak-yeqawwini.mp3", cover: "/images/track-hobak-yeqawwini.jpg" },
+      { id: "moshkeltak-el-waheede", title: { en: "Moshkeltak El Waheede", ar: "مشكلتك الوحيدة" }, file: "audio/nancy-10/moshkeltak-el-waheede.mp3", cover: "/images/track-moshkeltak-el-waheede.jpg" },
+      { id: "jayeh-maak", title: { en: "Jayeh Maak", ar: "جاية معاك" }, file: "audio/nancy-10/jayeh-maak.mp3", cover: "/images/track-jayeh-maak.jpg" },
+      { id: "ma-teetazer", title: { en: "Ma Te'tazer", ar: "ما تعتذر" }, file: "audio/nancy-10/ma-teetazer.mp3", cover: "/images/track-ma-teetazer.jpg" },
     ],
   },
 ];
@@ -223,79 +269,49 @@ export const videos = [
   },
 ];
 
+export const gallerySlides = [
+  { src: "/images/gallery-03.jpg", alt: "Nancy Ajram smiling in a black dress" },
+  { src: "/images/gallery-01.jpg", alt: "Nancy Ajram in a white jacket and gold chain" },
+  { src: "/images/gallery-02.jpg", alt: "Nancy Ajram in a white herringbone suit" },
+  { src: "/images/gallery-04.jpg", alt: "Nancy Ajram in a green gold-trim dress" },
+  { src: "/images/gallery-05.jpg", alt: "Nancy Ajram portrait" },
+  { src: "/images/gallery-06.jpg", alt: "Nancy Ajram with a microphone" },
+  { src: "/images/gallery-07.jpg", alt: "Nancy Ajram in a navy sequin dress" },
+  { src: "/images/gallery-08.jpg", alt: "Nancy Ajram casual selfie" },
+  { src: "/images/gallery-09.jpg", alt: "Nancy Ajram on stage with open arms" },
+  { src: "/images/gallery-10.jpg", alt: "Nancy Ajram in a teal sequin dress" },
+  { src: "/images/gallery-11.jpg", alt: "Nancy Ajram in a teal evening gown" },
+  { src: "/images/gallery-12.jpg", alt: "Nancy Ajram in a striped sequin dress" },
+  { src: "/images/gallery-13.jpg", alt: "Nancy Ajram in a green sequin gown" },
+];
+
 export const gallery = [
-  {
-    src: "/images/slide-fur.jpg",
-    year: 2018,
-    album: "Portraits",
-    alt: "Nancy Ajram in fur",
-  },
-  {
-    src: "/images/slide-street.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram white dress",
-  },
-  {
-    src: "/images/slide-box.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram with a jewelry box",
-  },
-  {
-    src: "/images/slide-jewels.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram in jewels",
-  },
-  {
-    src: "/images/slide-blue-glam.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram on a blue backdrop",
-  },
-  {
-    src: "/images/slide-red.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram in white on red",
-  },
-  {
-    src: "/images/slide-flowers.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram in a black dress with flowers",
-  },
-  {
-    src: "/images/slide-tiffany-blue.jpg",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram in a diamond necklace",
-  },
-  {
-    src: "/images/slide-tiffany-gold.webp",
-    year: 2024,
-    album: "Latest",
-    alt: "Nancy Ajram at a Tiffany event",
-  },
-  {
-    src: "/images/slide-coffee.jpg",
-    year: 2023,
-    album: "Portraits",
-    alt: "Nancy Ajram coffee",
-  },
-  {
-    src: "/images/slide-gala.webp",
-    year: 2015,
-    album: "Red carpet",
-    alt: "Nancy Ajram gala",
-  },
-  {
-    src: "/images/slide-closeup.jpg",
-    year: 2008,
-    album: "Classic",
-    alt: "Nancy Ajram classic portrait",
-  },
+  { src: "/images/look-25.jpg", size: "hero", alt: "Nancy Ajram in a white dress by the water", objectPosition: "center 16%" },
+  { src: "/images/look-02.webp", alt: "Nancy Ajram in a tweed mini dress", objectPosition: "center 8%" },
+  { src: "/images/look-15.jpg", alt: "Nancy Ajram laughing in blue light", objectPosition: "center 22%" },
+  { src: "/images/look-01.webp", alt: "Nancy Ajram in a silver beaded set" },
+  { src: "/images/look-04.webp", size: "wide", alt: "Nancy Ajram in a white dress by the sea" },
+  { src: "/images/look-05.jpg", alt: "Nancy Ajram in a black velvet look" },
+  { src: "/images/look-06.jpg", alt: "Nancy Ajram taking a selfie" },
+  { src: "/images/look-07.webp", alt: "Nancy Ajram in a gold tweed jacket" },
+  { src: "/images/look-08.webp", alt: "Nancy Ajram in silver lace" },
+  { src: "/images/look-09.webp", alt: "Nancy Ajram in a pink sequin top" },
+  { src: "/images/look-10.webp", size: "wide", alt: "Nancy Ajram on stage in the spotlight" },
+  { src: "/images/look-11.webp", size: "tall", alt: "Nancy Ajram in a pink mermaid gown" },
+  { src: "/images/look-12.webp", alt: "Nancy Ajram in a crystal dress at night" },
+  { src: "/images/look-13.webp", alt: "Nancy Ajram smiling in burgundy" },
+  { src: "/images/look-14.webp", alt: "Nancy Ajram in a burgundy dress" },
+  { src: "/images/look-03.webp", alt: "Nancy Ajram in a mauve dress" },
+  { src: "/images/look-16.webp", alt: "Nancy Ajram with wind in her hair" },
+  { src: "/images/look-17.webp", size: "wide", alt: "Nancy Ajram in a white cape dress" },
+  { src: "/images/look-18.webp", alt: "Nancy Ajram in a gold beaded dress" },
+  { src: "/images/look-19.jpg", alt: "Nancy Ajram in a black sequin top", objectPosition: "center 12%" },
+  { src: "/images/look-20.webp", size: "tall", alt: "Nancy Ajram on stage in a gold mini dress", objectPosition: "center 28%" },
+  { src: "/images/look-21.webp", alt: "Nancy Ajram singing in a red dress", objectPosition: "center 16%" },
+  { src: "/images/look-22.jpg", alt: "Nancy Ajram in a black interview look", objectPosition: "center 14%" },
+  { src: "/images/look-23.jpg", alt: "Nancy Ajram in a red sequin dress", objectPosition: "center 12%" },
+  { src: "/images/look-24.webp", alt: "Nancy Ajram in a red one-shoulder dress", objectPosition: "center 14%" },
+  { src: "/images/look-26.jpg", alt: "Nancy Ajram in a white dress among flowers", objectPosition: "62% 32%" },
 ];
 
 export const news = [

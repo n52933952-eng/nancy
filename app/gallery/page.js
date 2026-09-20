@@ -1,7 +1,6 @@
+import ContentHeader from "@/components/ContentHeader";
 import GalleryGrid from "@/components/GalleryGrid";
 import Navbar from "@/components/Navbar";
-import PageHeader from "@/components/PageHeader";
-import { copy } from "@/data/i18n";
 
 export const metadata = {
   title: "Gallery",
@@ -13,8 +12,8 @@ export default function GalleryPage() {
   return (
     <>
       <Navbar />
-      <main className="pb-20">
-        <PageHeader {...copy.galleryPage} />
+      <main className="band-gold pb-20">
+        <ContentHeader page="galleryPage" compact />
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <GalleryGrid />
         </div>

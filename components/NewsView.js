@@ -3,12 +3,13 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
-import { copy } from "@/data/i18n";
-import { news } from "@/data/media";
+import { mediaUrl } from "@/data/media";
+import { useContent } from "@/components/ContentProvider";
 import { useLang } from "@/components/LanguageProvider";
 
 export default function NewsView() {
   const { lang } = useLang();
+  const { copy, news } = useContent();
 
   return (
     <>
@@ -20,7 +21,7 @@ export default function NewsView() {
             <article key={item.id} className="overflow-hidden border border-gold/20 bg-royal">
               <div className="relative aspect-[16/10]">
                 <Image
-                  src={item.image}
+                  src={mediaUrl(item.image)}
                   alt={item.title.en}
                   fill
                   unoptimized

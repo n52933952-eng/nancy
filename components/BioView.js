@@ -3,12 +3,13 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
-import { copy } from "@/data/i18n";
-import { biography } from "@/data/media";
+import { mediaUrl } from "@/data/media";
+import { useContent } from "@/components/ContentProvider";
 import { useLang } from "@/components/LanguageProvider";
 
 export default function BioView() {
   const { lang } = useLang();
+  const { copy, biography } = useContent();
 
   return (
     <>
@@ -20,7 +21,7 @@ export default function BioView() {
             <div className="overflow-hidden rounded-full border border-gold/40 p-1">
               <div className="relative aspect-square overflow-hidden rounded-full">
                 <Image
-                  src={biography.portrait}
+                  src={mediaUrl(biography.portrait)}
                   alt="Nancy Ajram"
                   fill
                   unoptimized

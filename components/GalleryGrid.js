@@ -1,78 +1,189 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
-import { copy } from "@/data/i18n";
-import { gallery } from "@/data/media";
+import { useEffect, useRef, useState } from "react";
+import { mediaUrl } from "@/data/media";
+import { useAutoLight } from "@/lib/useAutoLight";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
+
+function Shot({ item, index, lit, bind, onOpen, className = "", sizes }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(item)}
+      className={`tile-in group atelier-tile ${className} ${lit === index ? "is-lit" : ""}`}
+      style={{ "--d": `${index * 40}ms` }}
+      {...bind(index)}
+    >
+      <Image
+        src={mediaUrl(item.src)}
+        alt={item.alt}
+        fill
+        unoptimized
+        quality={100}
+        sizes={sizes}
+        className="object-cover"
+        style={{ objectPosition: item.objectPosition || "center 18%" }}
+      />
+      <span className="atelier-tile-shine" />
+      <span className="photo-corners" />
+      <span className="atelier-index">{String(index + 1).padStart(2, "0")}</span>
+    </button>
+  );
+}
 
 export default function GalleryGrid() {
   const { lang } = useLang();
-  const years = useMemo(
-    () => ["all", ...Array.from(new Set(gallery.map((item) => String(item.year))))],
-    [],
-  );
-  const [filter, setFilter] = useState("all");
+  const { copy, gallery } = useContent();
   const [open, setOpen] = useState(null);
-  const items = gallery.filter((item) => filter === "all" || String(item.year) === filter);
+  const { lit, bind, ref } = useAutoLight(gallery.length, Boolean(open));
+  const stripRef = useRef(null);
+  const openIndex = open ? gallery.findIndex((item) => item.src === open.src) : -1;
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    function onKey(event) {
+      if (event.key === "Escape") setOpen(null);
+      if (event.key === "ArrowRight") setOpen(gallery[(openIndex + 1) % gallery.length]);
+      if (event.key === "ArrowLeft") {
+        setOpen(gallery[(openIndex - 1 + gallery.length) % gallery.length]);
+      }
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, openIndex]);
+
+  useEffect(() => {
+    if (openIndex < 0 || !stripRef.current) return;
+    const active = stripRef.current.querySelector("[data-active='true']");
+    active?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [openIndex]);
+
+  const shot = (index, className, sizes) => (
+    <Shot
+      key={gallery[index].src}
+      item={gallery[index]}
+      index={index}
+      lit={lit}
+      bind={bind}
+      onOpen={setOpen}
+      className={className}
+      sizes={sizes}
+    />
+  );
 
   return (
     <>
-      <div className="mb-8 flex flex-wrap gap-2">
-        {years.map((year) => (
-          <button
-            key={year}
-            type="button"
-            onClick={() => setFilter(year)}
-            className={`px-4 py-2 text-[11px] tracking-[0.2em] uppercase ${
-              filter === year ? "bg-gold text-night" : "border border-gold/30 text-gold"
-            }`}
-          >
-            {year === "all" ? copy.galleryPage.all[lang] : year}
-          </button>
-        ))}
-      </div>
+      <div ref={ref} className="magazine">
+        <div className="magazine-cover">
+          {shot(0, "is-cover", "(max-width: 768px) 100vw, 55vw")}
+          <div className="magazine-stack">
+            {shot(1, "", "(max-width: 768px) 50vw, 28vw")}
+            {shot(2, "", "(max-width: 768px) 50vw, 28vw")}
+          </div>
+        </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-        {items.map((item) => (
-          <button
-            key={item.src}
-            type="button"
-            onClick={() => setOpen(item)}
-            className="group relative aspect-[3/4] overflow-hidden bg-royal"
-          >
-            <Image
-              src={item.src}
-              alt={item.alt}
-              fill
-              unoptimized
-              quality={100}
-              sizes="(max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
-              style={{ objectPosition: "center 18%" }}
-            />
-            <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-night to-transparent p-4 text-start text-xs tracking-[0.2em] text-gold uppercase">
-              {item.year} · {item.album}
-            </span>
-          </button>
-        ))}
+        <p className="magazine-kicker">{copy.galleryPage.pageEvening[lang]}</p>
+        <div className="magazine-row">{[3, 4, 5, 6].map((i) => shot(i, "", "25vw"))}</div>
+
+        <div className="magazine-duo">
+          {shot(7, "is-feature", "(max-width: 768px) 100vw, 55vw")}
+          <div className="magazine-stack">
+            {shot(8, "", "28vw")}
+            {shot(9, "", "28vw")}
+          </div>
+        </div>
+
+        <div className="magazine-row">{[10, 11, 12].map((i) => shot(i, "", "33vw"))}</div>
+
+        <blockquote className="magazine-quote">
+          <span className="gold-line-draw mb-5" />
+          {copy.galleryPage.quote[lang]}
+        </blockquote>
+
+        <p className="magazine-kicker">{copy.galleryPage.pageSoft[lang]}</p>
+        <div className="magazine-row">{[13, 14, 15, 16].map((i) => shot(i, "", "25vw"))}</div>
+
+        <div className="magazine-duo">
+          {shot(20, "is-feature", "(max-width: 768px) 100vw, 55vw")}
+          <div className="magazine-stack">
+            {shot(18, "", "28vw")}
+            {shot(19, "", "28vw")}
+          </div>
+        </div>
+
+        <div className="magazine-row">{[21, 22, 23, 24, 25].map((i) => shot(i, "", "20vw"))}</div>
       </div>
 
       {open ? (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-night/90 p-4"
-          onClick={() => setOpen(null)}
-        >
-          <div className="relative h-[85dvh] w-full max-w-4xl">
-            <Image
-              src={open.src}
-              alt={open.alt}
-              fill
-              unoptimized
-              quality={100}
-              sizes="100vw"
-              className="object-contain"
-            />
+        <div className="atelier-theater" onClick={() => setOpen(null)}>
+          <div className="atelier-theater-stage" onClick={(event) => event.stopPropagation()}>
+            <div className="mb-4 flex items-center justify-between">
+              <p className="font-display text-sm tracking-[0.28em] text-gold">
+                {String(openIndex + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
+              </p>
+              <button
+                type="button"
+                onClick={() => setOpen(null)}
+                className="text-[11px] tracking-[0.2em] text-gold uppercase"
+              >
+                {copy.galleryPage.close[lang]}
+              </button>
+            </div>
+
+            <div className="relative mx-auto aspect-[3/4] w-full max-h-[68dvh] max-w-xl">
+              <Image
+                src={mediaUrl(open.src)}
+                alt={open.alt}
+                fill
+                unoptimized
+                quality={100}
+                sizes="100vw"
+                className="object-contain"
+              />
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-8">
+              <button
+                type="button"
+                className="text-[11px] tracking-[0.2em] text-gold uppercase"
+                onClick={() => setOpen(gallery[(openIndex - 1 + gallery.length) % gallery.length])}
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                className="text-[11px] tracking-[0.2em] text-gold uppercase"
+                onClick={() => setOpen(gallery[(openIndex + 1) % gallery.length])}
+              >
+                →
+              </button>
+            </div>
+
+            <div ref={stripRef} className="atelier-strip">
+              {gallery.map((item, index) => (
+                <button
+                  key={item.src}
+                  type="button"
+                  data-active={index === openIndex}
+                  className={`atelier-strip-item ${index === openIndex ? "is-on" : ""}`}
+                  onClick={() => setOpen(item)}
+                >
+                  <Image
+                    src={mediaUrl(item.src)}
+                    alt=""
+                    fill
+                    unoptimized
+                    quality={100}
+                    sizes="72px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : null}

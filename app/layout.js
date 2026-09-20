@@ -1,6 +1,8 @@
 import { Cairo, Cormorant_Garamond } from "next/font/google";
 import Footer from "@/components/Footer";
+import { ContentProvider } from "@/components/ContentProvider";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { fetchLiveContent } from "@/lib/content";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -17,6 +19,8 @@ const display = Cormorant_Garamond({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+export const dynamic = "force-dynamic";
 
 export const viewport = {
   width: "device-width",
@@ -81,7 +85,9 @@ const personJsonLd = {
   image: `${siteUrl}/images/slide-fur.jpg`,
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const live = await fetchLiveContent();
+
   return (
     <html
       lang="en"
@@ -93,8 +99,10 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         <LanguageProvider>
-          {children}
-          <Footer />
+          <ContentProvider initial={live}>
+            {children}
+            <Footer />
+          </ContentProvider>
         </LanguageProvider>
       </body>
     </html>

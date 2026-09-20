@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { copy, links } from "@/data/i18n";
+import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 export default function Footer() {
   const { lang } = useLang();
+  const { copy, links } = useContent();
 
   return (
-    <footer className="border-t border-gold/20 bg-night">
+    <footer className="band-plum border-t border-gold/20">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 sm:px-8 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <p className="font-display text-2xl tracking-[0.2em] text-gold uppercase">
