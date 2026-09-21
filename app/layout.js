@@ -114,9 +114,9 @@ export default async function RootLayout({ children }) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${cairo.variable} ${display.variable} h-full antialiased`}
+      className={`${cairo.variable} ${display.variable} antialiased`}
     >
-      <body className="min-h-full bg-night text-cream">
+      <body className="bg-night text-cream">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
