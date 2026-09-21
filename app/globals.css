@@ -39,12 +39,20 @@ html {
 body {
   width: 100%;
   max-width: 100%;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: visible;
   background: var(--color-night);
   color: var(--color-cream);
   font-family: var(--font-cairo), sans-serif;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+}
+
+header {
+  left: 0;
+  right: auto;
+  width: 100%;
+  max-width: 100%;
 }
 
 #home,
@@ -54,6 +62,8 @@ body {
 #news,
 #biography {
   overflow-anchor: none;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 .font-display {
@@ -914,22 +924,24 @@ body {
   --step: calc(var(--card-w) * 0.72);
   width: 100%;
   max-width: 100%;
+  overflow-x: hidden;
 }
 
 .gallery-slider-stage {
   position: relative;
   width: 100%;
   height: var(--card-h);
-  overflow: visible;
+  overflow: hidden;
+  contain: paint;
 }
 
 .gallery-concert {
   position: absolute;
-  top: -38%;
+  top: 0;
   left: 50%;
   z-index: 1;
   width: var(--card-w);
-  height: calc(var(--card-h) * 1.55);
+  height: 100%;
   margin-left: calc(var(--card-w) / -2);
   pointer-events: none;
 }
@@ -1036,7 +1048,6 @@ body {
   transform: translate3d(calc(var(--o) * var(--step)), 0, 0) scale(var(--s));
   transform-origin: center center;
   backface-visibility: hidden;
-  will-change: transform;
   touch-action: pan-y;
   transition:
     transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),

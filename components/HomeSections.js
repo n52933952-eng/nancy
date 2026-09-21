@@ -32,8 +32,8 @@ function Reveal({ children }) {
   return (
     <div
       ref={ref}
-      className={`section-reveal transition duration-700 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+      className={`section-reveal transition-opacity duration-700 ease-out ${
+        visible ? "opacity-100" : "opacity-0"
       }`}
     >
       {children}
@@ -129,7 +129,7 @@ export default function HomeSections() {
                   key={clip.id}
                   type="button"
                   onClick={() => setActiveClip(clip)}
-                  className="group text-start"
+                  className="group touch-pan-y text-start"
                 >
                   <span className="photo-tile relative block aspect-video">
                     <Image

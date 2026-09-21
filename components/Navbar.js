@@ -75,7 +75,7 @@ export default function Navbar({ transparent = false, theme = null }) {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 ${themed ? "nav-on-hero" : ""} ${
+        className={`fixed top-0 left-0 z-50 w-full max-w-full ${themed ? "nav-on-hero" : ""} ${
           transparent && !themed ? "bg-transparent" : ""
         } ${transparent ? "" : "bg-night/80 backdrop-blur-md"}`}
         data-bar={themed ? activeTheme.bar : undefined}
@@ -107,7 +107,7 @@ export default function Navbar({ transparent = false, theme = null }) {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex">
+          <nav className="hidden items-center gap-7 xl:flex">
             {links.map((item) => {
               const active =
                 item.href === "/"
@@ -140,7 +140,7 @@ export default function Navbar({ transparent = false, theme = null }) {
             </button>
             <button
               type="button"
-              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 xl:hidden"
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
@@ -154,7 +154,7 @@ export default function Navbar({ transparent = false, theme = null }) {
       </header>
 
       {open ? (
-        <div className="fixed inset-0 z-40 bg-night/95 pt-24 lg:hidden">
+        <div className="fixed inset-0 z-40 bg-night/95 pt-24 xl:hidden">
           <nav className="flex flex-col items-center gap-6 px-6">
             {links.map((item) => (
               <Link

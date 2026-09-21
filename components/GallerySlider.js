@@ -31,7 +31,7 @@ export default function GallerySlider({ items }) {
       ([entry]) => {
         setInView(entry.isIntersecting);
       },
-      { threshold: 0.2 },
+      { threshold: 0.45, rootMargin: "0px" },
     );
 
     observer.observe(section);
