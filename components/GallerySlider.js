@@ -83,6 +83,11 @@ export default function GallerySlider({ items }) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="gallery-slider-stage">
+        <span className="gallery-concert" aria-hidden="true">
+          <span className="gallery-concert-spot" />
+          <span className="gallery-concert-beam gallery-concert-beam-a" />
+          <span className="gallery-concert-beam gallery-concert-beam-b" />
+        </span>
         {items.map((item, index) => {
           const offset = wrapOffset(index, current, items.length);
           const visible = Math.abs(offset) <= 2;

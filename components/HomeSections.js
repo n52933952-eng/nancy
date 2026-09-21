@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import AlbumGrid from "@/components/AlbumGrid";
 import GallerySlider from "@/components/GallerySlider";
+import NewsStrip from "@/components/NewsStrip";
 import VideoLightbox from "@/components/VideoLightbox";
 import { mediaUrl } from "@/data/media";
 import { clearRememberedSection, goToSection, peekRememberedSection } from "@/lib/goToSection";
@@ -31,7 +32,7 @@ function Reveal({ children }) {
   return (
     <div
       ref={ref}
-      className={`transition duration-700 ease-out ${
+      className={`section-reveal transition duration-700 ease-out ${
         visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       }`}
     >
@@ -58,7 +59,7 @@ function SectionHead({ kicker, title, href, compact = false }) {
           {kicker[lang]}
         </p>
         <h2
-          className={`mt-1.5 font-display text-cream ${
+          className={`section-title mt-1.5 font-display text-cream ${
             compact ? "text-2xl sm:text-3xl" : "text-3xl sm:text-5xl"
           }`}
         >
@@ -185,32 +186,7 @@ export default function HomeSections() {
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
           <Reveal>
             <SectionHead kicker={copy.newsPage.kicker} title={copy.newsPage.title} href="/news" />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {news.map((item) => (
-                <Link key={item.id} href="/news" className="group">
-                  <span className="photo-tile relative block aspect-[16/10]">
-                    <Image
-                      src={mediaUrl(item.image)}
-                      alt={item.title.en}
-                      fill
-                      unoptimized
-                      quality={100}
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="photo-shot object-cover"
-                      style={{ objectPosition: "center 25%" }}
-                    />
-                  </span>
-                  <span className="block p-5">
-                    <span className="block text-[11px] tracking-[0.2em] text-gold uppercase">
-                      {item.date}
-                    </span>
-                    <span className="mt-2 block font-display text-2xl text-cream">
-                      {item.title[lang]}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
+            <NewsStrip items={news} />
           </Reveal>
         </div>
       </section>

@@ -2,16 +2,16 @@
 
 import { useLang } from "./LanguageProvider";
 
-export default function PageHeader({ kicker, title, subtitle, compact = false }) {
+export default function PageHeader({ kicker, title, subtitle, compact = false, className = "" }) {
   const { lang } = useLang();
 
   return (
     <div
-      className={
+      className={`${
         compact
           ? "mx-auto max-w-7xl px-4 pt-22 pb-4 sm:px-8 sm:pt-24"
           : "mx-auto max-w-7xl px-4 pt-28 pb-10 sm:px-8 sm:pt-32"
-      }
+      } ${className}`}
     >
       <p
         className={

@@ -134,6 +134,32 @@ button, input, textarea, select { font: inherit; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .field label { display: block; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.theme-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.theme-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: #12081c;
+  color: var(--cream);
+  cursor: pointer;
+}
+.theme-pick.on {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.theme-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 99px;
+}
 .tracks { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
 .hint { font-size: 13px; opacity: 0.65; }
 

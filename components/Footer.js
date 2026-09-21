@@ -19,6 +19,15 @@ export default function Footer() {
           <p className="mt-4 max-w-sm text-sm leading-7 text-cream/60">
             {copy.footer.rights[lang]}
           </p>
+          <p className="mt-3 max-w-sm text-sm leading-7 text-cream/60">
+            {copy.footer.credit?.[lang] || (lang === "ar" ? "طوّره نيما، من محبي نانسي." : "Developed by Neyma, a Nancy fan.")}{" "}
+            <a
+              href={`mailto:${copy.footer.email || "n52933952@gmail.com"}`}
+              className="text-gold hover:text-gold-soft"
+            >
+              {copy.footer.email || "n52933952@gmail.com"}
+            </a>
+          </p>
         </div>
         <nav className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm text-cream/70">
           {links.map((item) => (

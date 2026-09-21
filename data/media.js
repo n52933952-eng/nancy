@@ -1,3 +1,7 @@
+import { heroTone } from "./heroTone";
+
+export { heroTone };
+
 export function mediaUrl(path) {
   if (!path) return "";
   if (path.startsWith("http") || path.startsWith("/")) return path;
@@ -5,19 +9,6 @@ export function mediaUrl(path) {
   if (base) return `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
   return `/${path.replace(/^\//, "")}`;
 }
-
-export const heroTone = {
-  night: { ink: "#f7f0e4", accent: "#d4af37", bar: "dark" },
-  teal: { ink: "#f4fff9", accent: "#2ec4b0", bar: "dark" },
-  coffee: { ink: "#f7f0e4", accent: "#f0d48a", bar: "dark" },
-  ivory: { ink: "#1c120c", accent: "#d4af37", bar: "light" },
-  rouge: { ink: "#fff6f2", accent: "#ffb3b3", bar: "dark" },
-  cream: { ink: "#1c120c", accent: "#8a5a20", bar: "light" },
-  blue: { ink: "#f4f8ff", accent: "#8ec5ff", bar: "dark" },
-  rose: { ink: "#fff4f7", accent: "#f0a3b4", bar: "dark" },
-  tiffany: { ink: "#f3fffc", accent: "#5fd4c4", bar: "dark" },
-  gold: { ink: "#fff8e6", accent: "#f0d48a", bar: "dark" },
-};
 
 export const slides = [
   {

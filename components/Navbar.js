@@ -8,8 +8,9 @@ import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 function hrefFor(item) {
-  if (item.key === "home") return "/";
-  if (item.key === "music") return "/#music";
+  if (item.key === "home" || item.key === "music" || item.key === "gallery" || item.key === "news") {
+    return "/";
+  }
   return item.href;
 }
 
@@ -26,14 +27,18 @@ export default function Navbar({ transparent = false, theme = null }) {
 
   useEffect(() => {
     themeRef.current = theme;
-    setLiveTheme(theme);
+    setLiveTheme((current) =>
+      current?.ink === theme?.ink && current?.accent === theme?.accent ? current : theme,
+    );
   }, [theme]);
 
   useEffect(() => {
     if (!transparent) return undefined;
     function onHeroTheme(event) {
-      if (!themeRef.current) return;
-      setLiveTheme(event.detail);
+      const next = event.detail;
+      setLiveTheme((current) =>
+        current?.ink === next?.ink && current?.accent === next?.accent ? current : next,
+      );
     }
     window.addEventListener("nancy-hero-theme", onHeroTheme);
     return () => window.removeEventListener("nancy-hero-theme", onHeroTheme);
@@ -50,13 +55,13 @@ export default function Navbar({ transparent = false, theme = null }) {
       return;
     }
 
-    if (item.key === "music") {
+    if (item.key === "music" || item.key === "gallery" || item.key === "news") {
       event.preventDefault();
       if (pathname === "/") {
-        goToSection("music");
+        goToSection(item.key);
         return;
       }
-      rememberSection("music");
+      rememberSection(item.key);
       router.push("/");
       return;
     }
@@ -112,6 +117,7 @@ export default function Navbar({ transparent = false, theme = null }) {
                 <Link
                   key={item.key}
                   href={hrefFor(item)}
+                  scroll={false}
                   onClick={(event) => onNavClick(event, item)}
                   className={`nav-link text-[11px] tracking-[0.22em] uppercase ${
                     active ? "nav-link-active" : ""
@@ -144,7 +150,7 @@ export default function Navbar({ transparent = false, theme = null }) {
             </button>
           </div>
         </div>
-        {transparent ? null : <div className="gold-line opacity-40" />}
+        <div className={`gold-line ${transparent ? "opacity-0" : "opacity-40"}`} />
       </header>
 
       {open ? (
@@ -154,6 +160,7 @@ export default function Navbar({ transparent = false, theme = null }) {
               <Link
                 key={item.key}
                 href={hrefFor(item)}
+                scroll={false}
                 onClick={(event) => onNavClick(event, item)}
                 className="font-display text-3xl text-cream"
               >

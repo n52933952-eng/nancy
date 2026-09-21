@@ -34,8 +34,8 @@ export const copy = {
       ar: "اختاري ألبوماً. لكل ألبوم أغانيه.",
     },
     waiting: {
-      en: "This track is not on Cloudflare yet.",
-      ar: "هذه الأغنية ليست على Cloudflare بعد.",
+      en: "This song is not ready to play yet.",
+      ar: "هذه الأغنية ليست جاهزة للتشغيل بعد.",
     },
     nowPlaying: { en: "Now playing", ar: "الآن" },
     back: { en: "All albums", ar: "كل الألبومات" },
@@ -45,17 +45,17 @@ export const copy = {
     kicker: { en: "On camera", ar: "على الكاميرا" },
     title: { en: "Video clips", ar: "الفيديو كليب" },
     subtitle: {
-      en: "Official-style clips. Drop the files on Cloudflare, then paste the URLs.",
-      ar: "كليبات. ارفع الملفات على Cloudflare ثم ضع الروابط.",
+      en: "Nancy on camera — the videos that made a generation fall in love.",
+      ar: "نانسي أمام الكاميرا — الكليبات التي أحبّها جيلٌ بأكمله.",
     },
-    waiting: { en: "Video file not linked yet.", ar: "ملف الفيديو غير مربوط بعد." },
+    waiting: { en: "This clip is coming soon.", ar: "هذا الكليب قادم قريباً." },
   },
   galleryPage: {
-    kicker: { en: "The atelier", ar: "الأتيليه" },
+    kicker: { en: "The looks", ar: "الإطلالات" },
     title: { en: "Gallery", ar: "المعرض" },
     subtitle: {
-      en: "A private salon of looks. The gold light walks. Open any photo.",
-      ar: "صالون خاص للإطلالات. الضوء الذهبي يمشي. افتحي أي صورة.",
+      en: "A quiet room of her most beautiful nights. Open any photo.",
+      ar: "غرفة هادئة لأجمل لياليها. افتحي أي صورة.",
     },
     all: { en: "All", ar: "الكل" },
     evening: { en: "Evening", ar: "مساء" },
@@ -67,8 +67,8 @@ export const copy = {
     pageEvening: { en: "After dark", ar: "بعد العتمة" },
     pageSoft: { en: "In daylight", ar: "في النهار" },
     quote: {
-      en: "A voice, a dress, a night — and the room becomes hers.",
-      ar: "صوت، فستان، ليلة — والقاعة تصير لها.",
+      en: "A song, a dress, a night — and the whole room is hers.",
+      ar: "أغنية، فستان، ليلة — والقاعة كلّها لها.",
     },
   },
   bioPage: {
@@ -83,6 +83,7 @@ export const copy = {
       en: "Fan-site notes and highlights. Not an official press feed.",
       ar: "ملاحظات موقع المعجبين. ليست تغطية رسمية.",
     },
+    back: { en: "All news", ar: "كل الأخبار" },
   },
   homeIntro: {
     kicker: { en: "Nancy World", ar: "عالم نانسي" },
@@ -97,9 +98,14 @@ export const copy = {
   },
   footer: {
     rights: {
-      en: "Made with love by fans. Not affiliated with Nancy Ajram or her label.",
-      ar: "صُنع بحب من المعجبين. غير مرتبط بنانسي عجرم أو شركتها.",
+      en: "Made with love. Not affiliated with Nancy Ajram or her label.",
+      ar: "صُنع بحب. غير مرتبط بنانسي عجرم أو شركتها.",
     },
+    credit: {
+      en: "Developed by Neyma, a Nancy fan.",
+      ar: "طوّره نيما، من محبي نانسي.",
+    },
+    email: "n52933952@gmail.com",
   },
 };
 

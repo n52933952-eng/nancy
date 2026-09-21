@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { mediaUrl } from "@/data/media";
+import { resolveTone } from "@/data/heroTone";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
@@ -11,7 +12,7 @@ const INTERVAL = 3200;
 
 function Letters({ text, className, delay = 0 }) {
   return (
-    <span className={className}>
+    <span className={className} dir="ltr">
       {Array.from(text).map((char, i) => (
         <span key={`${char}-${i}`} style={{ "--i": i, "--delay": `${delay}ms` }}>
           {char === " " ? "\u00a0" : char}
@@ -28,6 +29,7 @@ export default function HeroSlider({ onTheme }) {
   const [progress, setProgress] = useState(0);
   const startX = useRef(0);
   const slide = slides[index] || slides[0];
+  const theme = resolveTone(slide?.theme);
 
   const go = useCallback(
     (next) => {
@@ -54,9 +56,9 @@ export default function HeroSlider({ onTheme }) {
   }, [go, index]);
 
   useEffect(() => {
-    onTheme?.(slide.theme);
-    if (slide.theme) window.dispatchEvent(new CustomEvent("nancy-hero-theme", { detail: slide.theme }));
-  }, [onTheme, slide?.theme]);
+    onTheme?.(theme);
+    window.dispatchEvent(new CustomEvent("nancy-hero-theme", { detail: theme }));
+  }, [onTheme, theme.ink, theme.accent, theme.bar]);
 
   function onTouchStart(event) {
     startX.current = event.changedTouches[0].clientX;
@@ -76,6 +78,10 @@ export default function HeroSlider({ onTheme }) {
       className="relative h-[100dvh] min-h-[520px] overflow-hidden bg-night sm:min-h-[640px]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
+      style={{
+        "--slide-ink": theme.ink,
+        "--slide-accent": theme.accent,
+      }}
     >
       {slides.map((slide, i) => (
         <div
@@ -121,10 +127,6 @@ export default function HeroSlider({ onTheme }) {
 
       <div
         className="hero-copy pointer-events-none relative z-10 flex h-full flex-col justify-end px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-10 sm:pb-20 lg:px-16"
-        style={{
-          "--slide-ink": slide.theme?.ink,
-          "--slide-accent": slide.theme?.accent,
-        }}
       >
         <div key={slide.src} className="hero-copy-in">
           <p className="hero-kicker">{copy.unofficial[lang]}</p>

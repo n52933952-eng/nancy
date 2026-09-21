@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { heroTone, heroToneLabels, themeKey } from "./heroTone";
 import { fileUrl, loadContent, login, saveContent, uploadFile } from "./api";
 
 const TABS = [
@@ -11,7 +12,7 @@ const TABS = [
   ["texts", "Texts"],
 ];
 
-const THEMES = ["night", "teal", "coffee", "ivory", "rouge", "cream", "blue", "rose", "tiffany", "gold"];
+const THEMES = Object.keys(heroTone);
 
 function slug(value) {
   return (
@@ -33,6 +34,26 @@ function Pair({ label, value = {}, onChange }) {
         <label>{label} AR</label>
         <input
           dir="rtl"
+          value={value.ar || ""}
+          onChange={(event) => onChange({ ...value, ar: event.target.value })}
+        />
+      </div>
+    </div>
+  );
+}
+
+function PairArea({ label, value = {}, onChange }) {
+  return (
+    <div className="grid2">
+      <div className="field">
+        <label>{label} EN</label>
+        <textarea rows={5} value={value.en || ""} onChange={(event) => onChange({ ...value, en: event.target.value })} />
+      </div>
+      <div className="field">
+        <label>{label} AR</label>
+        <textarea
+          dir="rtl"
+          rows={5}
           value={value.ar || ""}
           onChange={(event) => onChange({ ...value, ar: event.target.value })}
         />
@@ -66,11 +87,6 @@ function FilePick({ token, folder, accept, label, onPath }) {
       />
     </label>
   );
-}
-
-function themeKey(theme) {
-  if (typeof theme === "string") return theme;
-  return "night";
 }
 
 export default function App() {
@@ -212,13 +228,25 @@ function HomeEditor({ token, content, patch }) {
               </div>
               <div className="field">
                 <label>Text color theme</label>
-                <select value={themeKey(slide.theme)} onChange={(event) => update(index, { theme: event.target.value })}>
+                <div className="theme-picks">
                   {THEMES.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
+                    <button
+                      key={name}
+                      type="button"
+                      className={themeKey(slide.theme) === name ? "theme-pick on" : "theme-pick"}
+                      onClick={() => update(index, { theme: name })}
+                    >
+                      <span
+                        className="theme-swatch"
+                        style={{
+                          background: heroTone[name].accent,
+                          boxShadow: `0 0 12px ${heroTone[name].accent}`,
+                        }}
+                      />
+                      {heroToneLabels[name] || name}
+                    </button>
                   ))}
-                </select>
+                </div>
               </div>
               <div className="actions">
                 <FilePick token={token} folder="images" accept="image/*" label="Change photo" onPath={(src) => update(index, { src })} />
@@ -604,7 +632,8 @@ function NewsEditor({ token, content, patch }) {
                 <input value={item.date || ""} onChange={(event) => update(index, { date: event.target.value })} />
               </div>
               <Pair label="Title" value={item.title} onChange={(title) => update(index, { title })} />
-              <Pair label="Text" value={item.excerpt} onChange={(excerpt) => update(index, { excerpt })} />
+              <PairArea label="Article" value={item.excerpt} onChange={(excerpt) => update(index, { excerpt })} />
+              <p className="hint">This text opens when someone clicks the news on the site.</p>
               <div className="actions">
                 <FilePick token={token} folder="images" accept="image/*" label="Change image" onPath={(image) => update(index, { image })} />
                 <button className="danger" type="button" onClick={() => patch({ news: news.filter((_, i) => i !== index) })}>

@@ -13,7 +13,7 @@ export default function VideosPage() {
     <>
       <Navbar />
       <main className="pb-20">
-        <ContentHeader page="videosPage" />
+        <ContentHeader page="videosPage" className="!pt-24 !pb-5 sm:!pt-28" />
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <VideoGrid />
         </div>

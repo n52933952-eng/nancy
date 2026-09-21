@@ -29,6 +29,7 @@ export default function AlbumGrid({ onSelect, compact = false }) {
                   fill
                   unoptimized
                   quality={100}
+                  priority={compact}
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
                   className="photo-shot object-cover"
                   style={{
