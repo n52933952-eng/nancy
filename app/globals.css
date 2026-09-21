@@ -924,24 +924,22 @@ header {
   --step: calc(var(--card-w) * 0.72);
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
 }
 
 .gallery-slider-stage {
   position: relative;
   width: 100%;
   height: var(--card-h);
-  overflow: hidden;
-  contain: paint;
+  overflow: visible;
 }
 
 .gallery-concert {
   position: absolute;
-  top: 0;
+  top: -38%;
   left: 50%;
   z-index: 1;
   width: var(--card-w);
-  height: 100%;
+  height: calc(var(--card-h) * 1.55);
   margin-left: calc(var(--card-w) / -2);
   pointer-events: none;
 }
