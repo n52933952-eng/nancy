@@ -27,8 +27,8 @@ export function NewsCard({ item, excerpt = false }) {
         </span>
       </span>
       <span className="block p-5">
-        <span className="news-date block text-[11px] tracking-[0.2em] uppercase">{item.date}</span>
-        <span className="news-title mt-2 block font-display text-2xl">{item.title[lang]}</span>
+        <span className="news-date block text-[11px] tracking-[0.12em] uppercase">{item.date}</span>
+        <span className="news-title mt-2 block font-display text-xl leading-snug sm:text-2xl">{item.title[lang]}</span>
         {excerpt ? (
           <span className="news-body mt-3 block text-sm leading-7">{item.excerpt[lang]}</span>
         ) : null}
@@ -39,7 +39,7 @@ export function NewsCard({ item, excerpt = false }) {
 
 export default function NewsStrip({ items }) {
   const { lang } = useLang();
-  const [visible, setVisible] = useState(3);
+  const [visible, setVisible] = useState(1);
   const [start, setStart] = useState(0);
 
   useEffect(() => {

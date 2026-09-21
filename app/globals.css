@@ -23,16 +23,42 @@
 }
 
 html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
+@media (max-width: 640px) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   background: var(--color-night);
   color: var(--color-cream);
   font-family: var(--font-cairo), sans-serif;
-  overflow-x: hidden;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+}
+
+header {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#home,
+#music,
+#gallery,
+#videos,
+#news,
+#biography {
+  overflow-anchor: none;
 }
 
 .font-display {
@@ -320,6 +346,53 @@ body {
   transform: scaleX(1);
 }
 
+[dir="rtl"] .nav-brand-en,
+[dir="rtl"] .nav-lang,
+[dir="rtl"] .hero-kicker,
+[dir="rtl"] .hero-tag,
+[dir="rtl"] .gold-btn,
+[dir="rtl"] .ghost-btn {
+  letter-spacing: 0.03em;
+}
+
+.video-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: color-mix(in srgb, var(--color-night) 92%, transparent);
+  overscroll-behavior: contain;
+}
+
+.video-lightbox-frame {
+  width: min(100%, 56rem);
+  max-width: 100%;
+}
+
+.video-lightbox-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-lightbox-stage video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
 .play-pulse {
   animation: play-pulse 2.4s ease-in-out infinite;
 }
@@ -388,12 +461,19 @@ body {
   to { transform: scaleX(1); opacity: 1; }
 }
 
+.hero-copy,
+.hero-copy-in {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .hero-kicker {
   display: flex;
   align-items: center;
   gap: 0.85rem;
+  max-width: 100%;
   font-size: 10px;
-  letter-spacing: 0.46em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--slide-accent);
   text-shadow: 0 2px 14px rgba(10, 5, 18, 0.55);
@@ -422,13 +502,13 @@ body {
 }
 
 .hero-first {
-  font-size: clamp(4.1rem, 13vw, 8.6rem);
+  font-size: clamp(2.7rem, 16vw, 8.6rem);
   letter-spacing: -0.035em;
   text-shadow: 0 18px 50px rgba(10, 5, 18, 0.4);
 }
 
 .hero-last {
-  font-size: clamp(4.1rem, 13vw, 8.6rem);
+  font-size: clamp(2.7rem, 16vw, 8.6rem);
   font-style: italic;
   letter-spacing: -0.03em;
   background: linear-gradient(
@@ -478,8 +558,9 @@ body {
 
 .hero-tag {
   margin-top: 1rem;
+  max-width: 100%;
   font-size: 0.78rem;
-  letter-spacing: 0.36em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--slide-ink) 78%, transparent);
 }
@@ -523,13 +604,18 @@ body {
 @media (min-width: 640px) {
   .hero-kicker {
     font-size: 11px;
-    letter-spacing: 0.46em;
+    letter-spacing: 0.32em;
+  }
+
+  .hero-first,
+  .hero-last {
+    font-size: clamp(4.1rem, 13vw, 8.6rem);
   }
 
   .hero-tag {
     margin-top: 1rem;
     font-size: 1rem;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.22em;
   }
 
   .hero-caption {
@@ -833,18 +919,22 @@ body {
   --card-h: calc(var(--card-w) * 4 / 3);
   --step: calc(var(--card-w) * 0.72);
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  clip-path: inset(0);
+  padding-top: 1.25rem;
 }
 
 .gallery-slider-stage {
   position: relative;
   width: 100%;
   height: var(--card-h);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .gallery-concert {
   position: absolute;
-  top: -38%;
+  top: -8%;
   left: 50%;
   z-index: 1;
   width: var(--card-w);
@@ -956,6 +1046,7 @@ body {
   transform-origin: center center;
   backface-visibility: hidden;
   will-change: transform;
+  touch-action: pan-y;
   transition:
     transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.8s ease;
@@ -963,22 +1054,6 @@ body {
 
 .gallery-slide.is-front {
   border-color: rgba(255, 230, 240, 0.35);
-  animation: concert-rim 2.1s ease-in-out infinite;
-}
-
-@keyframes concert-rim {
-  0%,
-  100% {
-    box-shadow:
-      0 18px 40px rgba(0, 0, 0, 0.4),
-      0 0 14px rgba(255, 170, 210, 0.12);
-  }
-  50% {
-    box-shadow:
-      0 18px 40px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(255, 170, 210, 0.65),
-      0 0 74px rgba(186, 160, 255, 0.38);
-  }
 }
 
 .gallery-slide::before,
@@ -1040,6 +1115,8 @@ body {
 
 .news-strip {
   position: relative;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .news-viewport {
@@ -1057,10 +1134,35 @@ body {
 .news-card {
   min-width: 0;
   text-decoration: none;
+  touch-action: pan-y;
 }
 
 .news-track .news-card {
-  flex: 0 0 calc((100% - (var(--vis, 3) - 1) * 1.5rem) / var(--vis, 3));
+  flex: 0 0 100%;
+}
+
+@media (min-width: 640px) {
+  .news-track .news-card {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .news-track .news-card {
+    flex: 0 0 calc((100% - 3rem) / 3);
+  }
+}
+
+.news-card .news-title,
+.news-card .news-body {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-height: 1.3;
+  filter: none;
 }
 
 .news-arrow {

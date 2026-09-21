@@ -113,6 +113,7 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${cairo.variable} ${display.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-night text-cream">

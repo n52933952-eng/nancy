@@ -75,7 +75,7 @@ export default function HeroSlider({ onTheme }) {
   return (
     <section
       id="home"
-      className="relative h-[100dvh] min-h-[520px] overflow-hidden bg-night sm:min-h-[640px]"
+      className="relative h-[100svh] min-h-[520px] overflow-hidden bg-night sm:h-dvh sm:min-h-[640px]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       style={{

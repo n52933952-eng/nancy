@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="band-plum border-t border-gold/20">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 sm:px-8 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="font-display text-2xl tracking-[0.2em] text-gold uppercase">
+          <p className="font-display text-2xl tracking-[0.08em] text-gold uppercase sm:tracking-[0.2em]">
             {copy.brandEn}
           </p>
           <p className="mt-1 text-lg text-gold-soft">{copy.brandAr}</p>

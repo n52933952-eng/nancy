@@ -88,10 +88,10 @@ export default function Navbar({ transparent = false, theme = null }) {
             : undefined
         }
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 pt-[env(safe-area-inset-top)] sm:h-20 sm:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-2 pt-[env(safe-area-inset-top)] pl-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.75rem,env(safe-area-inset-right))] sm:h-20 sm:pl-8 sm:pr-8">
           <Link
             href="/"
-            className="nav-brand flex items-baseline gap-2"
+            className="nav-brand min-w-0 shrink"
             onClick={(event) => {
               if (pathname === "/") {
                 event.preventDefault();
@@ -102,7 +102,7 @@ export default function Navbar({ transparent = false, theme = null }) {
               }
             }}
           >
-            <span className="nav-brand-en font-display text-lg tracking-[0.28em] uppercase sm:text-xl">
+            <span className="nav-brand-en block truncate font-display text-lg tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.28em]">
               {copy.mark[lang]}
             </span>
           </Link>
@@ -129,11 +129,11 @@ export default function Navbar({ transparent = false, theme = null }) {
             })}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
-              className="nav-lang border px-3 py-1 text-[10px] tracking-[0.2em] uppercase"
+              className="nav-lang border px-2.5 py-1 text-[10px] tracking-wide uppercase sm:px-3 sm:tracking-[0.2em]"
               aria-label="Change language"
             >
               {lang === "en" ? "عربي" : "EN"}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { mediaUrl } from "@/data/media";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
@@ -9,27 +10,49 @@ export default function VideoLightbox({ clip, onClose }) {
   const { lang } = useLang();
   const { copy } = useContent();
   const [ready, setReady] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const src = clip ? mediaUrl(clip.file) : "";
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setReady(false);
   }, [src]);
 
-  if (!clip) return null;
+  useEffect(() => {
+    if (!clip) return undefined;
 
-  return (
-    <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-night/92 p-4"
-      onClick={onClose}
-    >
-      <div className="w-full max-w-4xl" onClick={(event) => event.stopPropagation()}>
+    const { overflow: htmlOverflow } = document.documentElement.style;
+    const { overflow: bodyOverflow } = document.body.style;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    function onKey(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.documentElement.style.overflow = htmlOverflow;
+      document.body.style.overflow = bodyOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [clip, onClose]);
+
+  if (!clip || !mounted) return null;
+
+  return createPortal(
+    <div className="video-lightbox" onClick={onClose}>
+      <div className="video-lightbox-frame" onClick={(event) => event.stopPropagation()}>
         <div className="mb-3 flex justify-end">
           <button type="button" className="ghost-btn" onClick={onClose}>
             {copy.galleryPage.close[lang]}
           </button>
         </div>
         {src ? (
-          <div className="relative aspect-video w-full overflow-hidden bg-black">
+          <div className="video-lightbox-stage">
             {ready ? null : (
               <p className="absolute inset-0 z-10 flex items-center justify-center text-sm tracking-[0.2em] text-gold uppercase">
                 Loading
@@ -37,7 +60,6 @@ export default function VideoLightbox({ clip, onClose }) {
             )}
             <video
               key={src}
-              className="h-full w-full bg-black"
               src={src}
               controls
               autoPlay
@@ -53,6 +75,7 @@ export default function VideoLightbox({ clip, onClose }) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

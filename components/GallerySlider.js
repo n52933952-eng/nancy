@@ -17,30 +17,21 @@ export default function GallerySlider({ items }) {
   const [inView, setInView] = useState(false);
   const [paused, setPaused] = useState(false);
   const stageRef = useRef(null);
-  const wasInView = useRef(false);
 
   useEffect(() => {
-    const section = document.getElementById("gallery") || stageRef.current;
+    const section = stageRef.current;
     if (!section) return undefined;
 
     function startFromFirst() {
       setCurrent(0);
       setInView(true);
-      wasInView.current = true;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!wasInView.current) startFromFirst();
-          else setInView(true);
-          return;
-        }
-        wasInView.current = false;
-        setInView(false);
-        setCurrent(0);
+        setInView(entry.isIntersecting);
       },
-      { threshold: 0.28, rootMargin: "0px 0px -12% 0px" },
+      { threshold: 0.2 },
     );
 
     observer.observe(section);
@@ -105,6 +96,7 @@ export default function GallerySlider({ items }) {
                 zIndex: 20 - Math.abs(offset),
                 pointerEvents: visible ? "auto" : "none",
               }}
+              onMouseDown={(event) => event.preventDefault()}
               onClick={() => setCurrent(index)}
             >
               <Image
