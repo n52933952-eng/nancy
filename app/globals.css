@@ -915,20 +915,20 @@ body {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  clip-path: inset(0);
-  padding-top: 1.25rem;
+  padding-top: calc(var(--card-h) * 0.42);
+  padding-bottom: calc(var(--card-h) * 0.14);
 }
 
 .gallery-slider-stage {
   position: relative;
   width: 100%;
   height: var(--card-h);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gallery-concert {
   position: absolute;
-  top: -8%;
+  top: -38%;
   left: 50%;
   z-index: 1;
   width: var(--card-w);
@@ -1048,6 +1048,22 @@ body {
 
 .gallery-slide.is-front {
   border-color: rgba(255, 230, 240, 0.35);
+  animation: concert-rim 2.1s ease-in-out infinite;
+}
+
+@keyframes concert-rim {
+  0%,
+  100% {
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.4),
+      0 0 14px rgba(255, 170, 210, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(255, 170, 210, 0.65),
+      0 0 74px rgba(186, 160, 255, 0.38);
+  }
 }
 
 .gallery-slide::before,
