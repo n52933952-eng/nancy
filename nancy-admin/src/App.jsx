@@ -320,28 +320,18 @@ function MusicEditor({ token, content, patch }) {
                   }
                 />
                 <div className="field">
-                  <label>Audio path</label>
+                  <label>YouTube link</label>
                   <input
-                    value={track.file || ""}
+                    value={track.youtube || ""}
+                    placeholder="https://www.youtube.com/watch?v=..."
                     onChange={(event) =>
                       updateAlbum(index, {
-                        tracks: album.tracks.map((item, i) => (i === t ? { ...item, file: event.target.value } : item)),
+                        tracks: album.tracks.map((item, i) => (i === t ? { ...item, youtube: event.target.value } : item)),
                       })
                     }
                   />
                 </div>
                 <div className="actions">
-                  <FilePick
-                    token={token}
-                    folder={`audio/${album.id}`}
-                    accept="audio/*"
-                    label="Upload song"
-                    onPath={(file) =>
-                      updateAlbum(index, {
-                        tracks: album.tracks.map((item, i) => (i === t ? { ...item, file } : item)),
-                      })
-                    }
-                  />
                   <FilePick
                     token={token}
                     folder="images"
@@ -372,7 +362,7 @@ function MusicEditor({ token, content, patch }) {
                 updateAlbum(index, {
                   tracks: [
                     ...(album.tracks || []),
-                    { id: `song-${Date.now()}`, title: { en: "New song", ar: "أغنية جديدة" }, file: "" },
+                    { id: `song-${Date.now()}`, title: { en: "New song", ar: "أغنية جديدة" }, youtube: "" },
                   ],
                 })
               }
@@ -413,7 +403,7 @@ function VideosEditor({ token, content, patch }) {
   }
   return (
     <div>
-      <p className="hint">If a video is bigger than 90MB, drop it in the R2 `video` folder then paste the path like video/clip-1.mp4.</p>
+      <p className="hint">Paste the official YouTube link. Do not upload the clip file.</p>
       {videos.map((clip, index) => (
         <article className="card" key={clip.id}>
           <div className="row">
@@ -426,13 +416,12 @@ function VideosEditor({ token, content, patch }) {
                   <input value={clip.year || ""} onChange={(event) => update(index, { year: event.target.value })} />
                 </div>
                 <div className="field">
-                  <label>Video path</label>
-                  <input value={clip.file || ""} onChange={(event) => update(index, { file: event.target.value })} />
+                  <label>YouTube link</label>
+                  <input value={clip.youtube || ""} placeholder="https://www.youtube.com/watch?v=..." onChange={(event) => update(index, { youtube: event.target.value })} />
                 </div>
               </div>
               <div className="actions">
                 <FilePick token={token} folder="images" accept="image/*" label="Poster image" onPath={(poster) => update(index, { poster })} />
-                <FilePick token={token} folder="video" accept="video/*" label="Upload clip" onPath={(file) => update(index, { file })} />
                 <button className="danger" type="button" onClick={() => patch({ videos: videos.filter((_, i) => i !== index) })}>
                   Remove
                 </button>
@@ -448,7 +437,7 @@ function VideosEditor({ token, content, patch }) {
           patch({
             videos: [
               ...videos,
-              { id: `clip-${Date.now()}`, title: { en: "New clip", ar: "كليب جديد" }, poster: "", file: "", year: new Date().getFullYear() },
+              { id: `clip-${Date.now()}`, title: { en: "New clip", ar: "كليب جديد" }, poster: "", youtube: "", year: new Date().getFullYear() },
             ],
           })
         }

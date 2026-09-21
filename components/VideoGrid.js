@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import VideoLightbox from "@/components/VideoLightbox";
 import { mediaUrl } from "@/data/media";
+import { youtubePoster } from "@/lib/youtube";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
@@ -24,7 +25,7 @@ export default function VideoGrid() {
           >
             <span className="relative block aspect-video overflow-hidden rounded-[18px] bg-royal">
               <Image
-                src={mediaUrl(clip.poster)}
+                src={mediaUrl(clip.poster) || youtubePoster(clip.youtube)}
                 alt={clip.title.en}
                 fill
                 unoptimized

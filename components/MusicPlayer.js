@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { mediaUrl } from "@/data/media";
 import { pauseHome } from "@/lib/homeAudio";
+import { loadYouTubeApi, youtubeId } from "@/lib/youtube";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
@@ -19,20 +20,21 @@ function formatTime(value) {
 
 export default function MusicPlayer() {
   const { lang } = useLang();
-  const { albums } = useContent();
+  const { albums, copy } = useContent();
   const router = useRouter();
   const searchParams = useSearchParams();
   const albumId = searchParams.get("album");
   const [album, setAlbum] = useState(null);
   const [current, setCurrent] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [ready, setReady] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const audioRef = useRef(null);
+  const hostRef = useRef(null);
+  const playerRef = useRef(null);
   const stageRef = useRef(null);
-  const graphRef = useRef(null);
   const track = album?.tracks?.[current];
-  const src = track ? mediaUrl(track.file) : "";
+  const video = youtubeId(track?.youtube);
   const cover = track?.cover || album?.cover;
   const coverPosition = track?.coverPosition || album?.coverPosition || "center 22%";
 
@@ -54,112 +56,110 @@ export default function MusicPlayer() {
     setPlaying(false);
     setTime(0);
     setDuration(0);
+    setReady(false);
   }, [albumId]);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return undefined;
+    let cancelled = false;
+    playerRef.current = null;
+    setReady(false);
+    setTime(0);
+    setDuration(0);
 
-    if (audio.dataset.src !== src) {
-      audio.src = src || "";
-      audio.dataset.src = src || "";
-      setTime(0);
-      setDuration(0);
-    }
+    if (!video) return undefined;
 
-    if (playing && src) {
-      pauseHome();
-      const start = () => {
-        audio.play().catch(() => setPlaying(false));
-      };
-      if (audio.readyState >= 2) start();
-      else audio.addEventListener("canplay", start, { once: true });
-      return () => audio.removeEventListener("canplay", start);
-    }
+    loadYouTubeApi().then((YT) => {
+      if (cancelled || !hostRef.current || !YT?.Player) return;
+      playerRef.current = new YT.Player(hostRef.current, {
+        videoId: video,
+        width: "100%",
+        height: "100%",
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
+          rel: 0,
+          playsinline: 1,
+          origin: window.location.origin,
+        },
+        events: {
+          onReady(event) {
+            setReady(true);
+            setDuration(event.target.getDuration() || 0);
+            if (playing) {
+              pauseHome();
+              event.target.playVideo();
+            }
+          },
+          onStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED && album) {
+              const next = (current + 1) % album.tracks.length;
+              const nextVideo = youtubeId(album.tracks[next]?.youtube);
+              setCurrent(next);
+              setPlaying(Boolean(nextVideo));
+            }
+          },
+        },
+      });
+    });
 
-    audio.pause();
-    return undefined;
-  }, [playing, src]);
+    return () => {
+      cancelled = true;
+      try {
+        playerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
+      }
+      playerRef.current = null;
+    };
+  }, [video]);
 
   useEffect(() => {
-    const stage = stageRef.current;
-    if (!playing) {
-      stage?.style.setProperty("--beat", "0");
+    const player = playerRef.current;
+    if (!ready || !player?.playVideo) return;
+    if (playing && video) {
+      pauseHome();
+      player.playVideo();
+    } else {
+      player.pauseVideo?.();
+    }
+  }, [playing, ready, video]);
+
+  useEffect(() => {
+    if (!playing || !ready) {
+      stageRef.current?.style.setProperty("--beat", "0");
       return undefined;
     }
 
+    const clock = window.setInterval(() => {
+      const player = playerRef.current;
+      if (!player?.getCurrentTime) return;
+      setTime(player.getCurrentTime() || 0);
+      setDuration(player.getDuration() || 0);
+    }, 250);
+
     let frame = 0;
-    let floor = 0;
-    let peak = 0;
-
-    function graph() {
-      const audio = audioRef.current;
-      if (!audio || graphRef.current === "off") return null;
-      if (graphRef.current) return graphRef.current;
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) {
-        graphRef.current = "off";
-        return null;
-      }
-      try {
-        const ctx = new AudioCtx();
-        const source = ctx.createMediaElementSource(audio);
-        const analyser = ctx.createAnalyser();
-        analyser.fftSize = 256;
-        analyser.smoothingTimeConstant = 0.18;
-        source.connect(analyser);
-        analyser.connect(ctx.destination);
-        graphRef.current = {
-          ctx,
-          analyser,
-          data: new Uint8Array(analyser.frequencyBinCount),
-        };
-        return graphRef.current;
-      } catch {
-        graphRef.current = "off";
-        return null;
-      }
-    }
-
     function tick() {
-      const node = graph();
-      if (node?.ctx.state === "suspended") node.ctx.resume().catch(() => {});
-      let beat = 0;
-      if (node) {
-        node.analyser.getByteFrequencyData(node.data);
-        let bass = 0;
-        let loud = 0;
-        for (let i = 1; i < 10; i += 1) bass += node.data[i];
-        for (let i = 0; i < node.data.length; i += 1) loud = Math.max(loud, node.data[i]);
-        bass /= 9 * 255;
-        if (loud < 6) {
-          beat = 0.5 + 0.5 * Math.sin(performance.now() / 170);
-        } else {
-          floor = floor * 0.9 + bass * 0.1;
-          const hit = Math.max(0, bass - floor * 0.62);
-          peak = Math.max(hit * 3.4, peak * 0.68);
-          beat = Math.min(1, peak);
-        }
-      } else {
-        beat = 0.5 + 0.5 * Math.sin(performance.now() / 170);
-      }
-      stage?.style.setProperty("--beat", beat.toFixed(3));
+      const beat = 0.5 + 0.5 * Math.sin(performance.now() / 170);
+      stageRef.current?.style.setProperty("--beat", beat.toFixed(3));
       frame = window.requestAnimationFrame(tick);
     }
-
     frame = window.requestAnimationFrame(tick);
+
     return () => {
+      window.clearInterval(clock);
       window.cancelAnimationFrame(frame);
-      stage?.style.setProperty("--beat", "0");
+      stageRef.current?.style.setProperty("--beat", "0");
     };
-  }, [playing]);
+  }, [playing, ready]);
 
   function select(i) {
     if (!album) return;
-    const next = album.tracks[i];
-    const hasFile = Boolean(mediaUrl(next?.file));
+    const nextVideo = youtubeId(album.tracks[i]?.youtube);
     if (i !== current) setCurrent(i);
-    setPlaying(hasFile);
+    setPlaying(Boolean(nextVideo));
   }
 
   if (!album) return null;
@@ -181,12 +181,20 @@ export default function MusicPlayer() {
                 style={{ objectPosition: coverPosition }}
               />
               <span className="news-shot-light" />
+              {video ? (
+                <div className={`music-yt ${playing ? "is-on" : ""}`} key={video}>
+                  <div ref={hostRef} />
+                </div>
+              ) : null}
             </div>
           </div>
           <h1 className="news-title mt-3 font-display text-2xl">{album.title[lang]}</h1>
           <p className="news-date mt-1 truncate text-xs">
             {track ? track.title[lang] : ""} · {album.year}
           </p>
+          {!video ? (
+            <p className="mt-2 text-sm text-cream/60">{copy.musicPage.waiting[lang]}</p>
+          ) : null}
           <div className="mt-3 flex items-center gap-3">
             <button
               type="button"
@@ -199,7 +207,7 @@ export default function MusicPlayer() {
             <button
               type="button"
               onClick={() => {
-                if (!src) return;
+                if (!video) return;
                 setPlaying((value) => !value);
               }}
               className={`music-play ${playing ? "is-on" : ""}`}
@@ -223,10 +231,10 @@ export default function MusicPlayer() {
             onChange={(event) => {
               const next = Number(event.target.value);
               setTime(next);
-              if (audioRef.current) audioRef.current.currentTime = next;
+              playerRef.current?.seekTo?.(next, true);
             }}
             className="music-range mt-3 w-full"
-            disabled={!src}
+            disabled={!video}
           />
           <p className="news-date mt-1 text-[10px]">
             {formatTime(time)} / {formatTime(duration)}
@@ -253,14 +261,6 @@ export default function MusicPlayer() {
           })}
         </ol>
       </div>
-
-      <audio
-        ref={audioRef}
-        crossOrigin="anonymous"
-        onTimeUpdate={(event) => setTime(event.currentTarget.currentTime)}
-        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-        onEnded={() => select((current + 1) % album.tracks.length)}
-      />
     </div>
   );
 }

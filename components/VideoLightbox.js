@@ -2,24 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { mediaUrl } from "@/data/media";
+import { youtubeId } from "@/lib/youtube";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
 export default function VideoLightbox({ clip, onClose }) {
   const { lang } = useLang();
   const { copy } = useContent();
-  const [ready, setReady] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const src = clip ? mediaUrl(clip.file) : "";
+  const video = clip ? youtubeId(clip.youtube) : "";
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    setReady(false);
-  }, [src]);
 
   useEffect(() => {
     if (!clip) return undefined;
@@ -51,21 +46,14 @@ export default function VideoLightbox({ clip, onClose }) {
             {copy.galleryPage.close[lang]}
           </button>
         </div>
-        {src ? (
+        {video ? (
           <div className="video-lightbox-stage">
-            {ready ? null : (
-              <p className="absolute inset-0 z-10 flex items-center justify-center text-sm tracking-[0.2em] text-gold uppercase">
-                Loading
-              </p>
-            )}
-            <video
-              key={src}
-              src={src}
-              controls
-              autoPlay
-              playsInline
-              preload="auto"
-              onPlaying={() => setReady(true)}
+            <iframe
+              key={video}
+              title={clip.title[lang]}
+              src={`https://www.youtube-nocookie.com/embed/${video}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
             />
           </div>
         ) : (

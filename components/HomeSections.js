@@ -9,6 +9,7 @@ import NewsStrip from "@/components/NewsStrip";
 import VideoLightbox from "@/components/VideoLightbox";
 import { mediaUrl } from "@/data/media";
 import { clearRememberedSection, goToSection, peekRememberedSection } from "@/lib/goToSection";
+import { youtubePoster } from "@/lib/youtube";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
@@ -133,7 +134,7 @@ export default function HomeSections() {
                 >
                   <span className="photo-tile relative block aspect-video">
                     <Image
-                      src={mediaUrl(clip.poster)}
+                      src={mediaUrl(clip.poster) || youtubePoster(clip.youtube)}
                       alt={clip.title.en}
                       fill
                       unoptimized
