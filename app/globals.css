@@ -914,9 +914,6 @@ body {
   --step: calc(var(--card-w) * 0.72);
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
-  padding-top: calc(var(--card-h) * 0.42);
-  padding-bottom: calc(var(--card-h) * 0.14);
 }
 
 .gallery-slider-stage {
