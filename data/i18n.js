@@ -91,8 +91,8 @@ export const copy = {
       ar: "بيت للأغاني والضوء وأناقة لبنان.",
     },
     text: {
-      en: "Nancy Ajram — نانسي عجرم — is one of the most famous Lebanese singers in the world. This fan site gathers her music, clips, portraits, and story in one gold-lit place.",
-      ar: "نانسي عجرم من أشهر المغنيات اللبنانيات في العالم. هذا الموقع يجمع موسيقاها وكليباتها وصورها وقصتها في مكان واحد.",
+      en: "Nancy Ajram — Nancy — نانسي عجرم — is one of the most famous Lebanese singers in the world. This fan site gathers her music, clips, portraits, and story in one gold-lit place.",
+      ar: "نانسي عجرم — نانسي — من أشهر المغنيات اللبنانيات في العالم. هذا الموقع يجمع موسيقاها وكليباتها وصورها وقصتها في مكان واحد.",
     },
   },
   footer: {

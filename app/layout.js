@@ -31,27 +31,33 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Nancy Ajram | نانسي عجرم — Official-style Fan Site",
+    default: "Nancy Ajram (Nancy) | نانسي عجرم — Music, Videos & Biography",
     template: "%s | Nancy Ajram | نانسي عجرم",
   },
   description:
-    "Nancy Ajram (نانسي عجرم) — Lebanese Arab pop icon. Music, video clips, gallery, biography and news. Queen of Arab Pop.",
+    "Nancy Ajram — also searched as Nancy and نانسي عجرم — Lebanese Queen of Arab Pop. Listen to Ah W Noss, Ya Tabtab and more. Videos, gallery, biography and news.",
   keywords: [
-    "Nancy Ajram",
     "Nancy",
-    "نانسي عجرم",
+    "Nancy Ajram",
+    "Nancy Ajram songs",
+    "Nancy Ajram music",
+    "Nancy Ajram videos",
     "نانسي",
+    "نانسي عجرم",
+    "أغاني نانسي عجرم",
+    "كليب نانسي عجرم",
     "Lebanese singer",
     "Arab pop",
     "Ah W Noss",
     "Ya Tabtab",
+    "Queen of Arab Pop",
   ],
   openGraph: {
-    title: "Nancy Ajram | نانسي عجرم",
+    title: "Nancy Ajram (Nancy) | نانسي عجرم",
     description:
-      "A luxury fan site for Nancy Ajram — music, clips, portraits and her story from Beirut.",
+      "Nancy — Nancy Ajram — نانسي عجرم. Music, official-style clips, gallery and her story from Beirut.",
     url: "/",
-    siteName: "Nancy Ajram",
+    siteName: "Nancy Ajram | نانسي عجرم",
     locale: "en_US",
     alternateLocale: ["ar_AR"],
     type: "website",
@@ -59,8 +65,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nancy Ajram | نانسي عجرم",
-    description: "Lebanese Arab pop icon — music, videos, gallery and biography.",
+    title: "Nancy Ajram (Nancy) | نانسي عجرم",
+    description: "Nancy Ajram — نانسي عجرم. Music, videos, gallery and biography.",
     images: ["/images/slide-fur.jpg"],
   },
   robots: { index: true, follow: true },
@@ -71,7 +77,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Nancy Ajram",
-  alternateName: ["نانسي عجرم", "Nancy Nabil Ajram"],
+  alternateName: ["Nancy", "نانسي عجرم", "نانسي", "Nancy Nabil Ajram"],
   nationality: "Lebanese",
   jobTitle: "Singer",
   birthDate: "1983-05-16",
@@ -80,9 +86,25 @@ const personJsonLd = {
     name: "Beirut, Lebanon",
   },
   description:
-    "Nancy Ajram is a Lebanese singer and one of the most famous Arab pop artists in the world.",
+    "Nancy Ajram (Nancy / نانسي عجرم) is a Lebanese singer and one of the most famous Arab pop artists in the world.",
   url: siteUrl,
   image: `${siteUrl}/images/slide-fur.jpg`,
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Nancy Ajram",
+  alternateName: ["Nancy", "Nancy Ajram fan site", "نانسي عجرم", "نانسي"],
+  url: siteUrl,
+  inLanguage: ["en", "ar"],
+  description:
+    "Fan site for Nancy Ajram (Nancy / نانسي عجرم) — music, videos, gallery, biography and news.",
+  about: {
+    "@type": "Person",
+    name: "Nancy Ajram",
+    alternateName: ["Nancy", "نانسي عجرم"],
+  },
 };
 
 export default async function RootLayout({ children }) {
@@ -97,6 +119,10 @@ export default async function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <LanguageProvider>
           <ContentProvider initial={live}>

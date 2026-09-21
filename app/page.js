@@ -1,9 +1,9 @@
 import HomeView from "@/components/HomeView";
 
 export const metadata = {
-  title: { absolute: "Nancy Ajram | نانسي عجرم — Queen of Arab Pop" },
+  title: { absolute: "Nancy Ajram (Nancy) | نانسي عجرم — Queen of Arab Pop" },
   description:
-    "Nancy Ajram (نانسي عجرم) official-style fan site. Lebanese Arab pop icon — music, videos, gallery and biography.",
+    "Nancy Ajram — Nancy — نانسي عجرم. Lebanese Arab pop icon. Music, Ah W Noss, videos, gallery and biography.",
 };
 
 export default function Home() {
