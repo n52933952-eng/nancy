@@ -481,7 +481,7 @@ header {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  animation: hero-beat 1.55s ease-in-out infinite;
+  animation: hero-beat 2.85s ease-in-out infinite;
 }
 
 .hero-dust i:nth-child(3n)::after { animation-delay: -0.25s; }
@@ -522,8 +522,8 @@ header {
 .hero-motif {
   position: absolute;
   color: #ff9bb8;
-  filter: drop-shadow(0 1px 2px rgba(10, 5, 18, 0.9)) drop-shadow(0 0 6px rgba(255, 190, 210, 0.7));
-  opacity: 0.92;
+  filter: drop-shadow(0 1px 2px rgba(10, 5, 18, 0.7)) drop-shadow(0 0 4px rgba(255, 190, 210, 0.4));
+  opacity: 0.78;
   animation: hero-motif 22s linear infinite;
 }
 
@@ -534,7 +534,7 @@ header {
   stroke: rgba(16, 8, 24, 0.8);
   stroke-width: 1.35;
   paint-order: stroke fill;
-  animation: hero-beat-motif 1.55s ease-in-out infinite;
+  animation: hero-beat-motif 2.85s ease-in-out infinite;
 }
 
 .hero-motif-2 svg { animation-delay: -0.2s; }
@@ -608,12 +608,12 @@ header {
     transform: translate3d(0, 18px, 0);
   }
   18% {
-    opacity: 0.88;
-    box-shadow: 0 0 12px 3px rgba(232, 196, 90, 0.8);
+    opacity: 0.62;
+    box-shadow: 0 0 7px 2px rgba(232, 196, 90, 0.38);
   }
   70% {
-    opacity: 0.4;
-    box-shadow: 0 0 7px 2px rgba(212, 175, 55, 0.3);
+    opacity: 0.32;
+    box-shadow: 0 0 5px 1px rgba(212, 175, 55, 0.18);
   }
   100% {
     opacity: 0;
@@ -624,55 +624,47 @@ header {
 
 @keyframes hero-beat {
   0%,
-  55%,
+  60%,
   100% {
-    opacity: 0.45;
-    box-shadow: 0 0 4px 1px rgba(212, 175, 55, 0.2);
+    opacity: 0.28;
+    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.12);
     transform: scale(1);
   }
-  14% {
-    opacity: 1;
-    box-shadow:
-      0 0 14px 5px rgba(255, 220, 120, 0.95),
-      0 0 26px 8px rgba(212, 175, 55, 0.5);
-    transform: scale(1.7);
+  16% {
+    opacity: 0.7;
+    box-shadow: 0 0 8px 3px rgba(232, 196, 90, 0.42);
+    transform: scale(1.2);
   }
-  26% {
-    opacity: 0.4;
-    box-shadow: 0 0 5px 1px rgba(212, 175, 55, 0.18);
+  28% {
+    opacity: 0.3;
+    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.12);
     transform: scale(1);
   }
-  38% {
-    opacity: 0.92;
-    box-shadow:
-      0 0 11px 4px rgba(255, 220, 120, 0.75),
-      0 0 18px 6px rgba(212, 175, 55, 0.38);
-    transform: scale(1.4);
+  40% {
+    opacity: 0.58;
+    box-shadow: 0 0 6px 2px rgba(232, 196, 90, 0.3);
+    transform: scale(1.1);
   }
 }
 
 @keyframes hero-beat-motif {
   0%,
-  55%,
+  60%,
   100% {
-    filter: drop-shadow(0 0 3px currentColor);
+    filter: drop-shadow(0 0 2px currentColor);
     transform: scale(1);
   }
-  14% {
-    filter:
-      drop-shadow(0 0 8px currentColor)
-      drop-shadow(0 0 16px currentColor);
-    transform: scale(1.18);
+  16% {
+    filter: drop-shadow(0 0 6px currentColor);
+    transform: scale(1.05);
   }
-  26% {
-    filter: drop-shadow(0 0 3px currentColor);
+  28% {
+    filter: drop-shadow(0 0 2px currentColor);
     transform: scale(1);
   }
-  38% {
-    filter:
-      drop-shadow(0 0 7px currentColor)
-      drop-shadow(0 0 12px currentColor);
-    transform: scale(1.1);
+  40% {
+    filter: drop-shadow(0 0 4px currentColor);
+    transform: scale(1.03);
   }
 }
 
