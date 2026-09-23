@@ -476,6 +476,18 @@ header {
   animation: hero-dust 16s linear infinite;
 }
 
+.hero-dust i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: hero-beat 1.55s ease-in-out infinite;
+}
+
+.hero-dust i:nth-child(3n)::after { animation-delay: -0.25s; }
+.hero-dust i:nth-child(4n)::after { animation-delay: -0.5s; }
+.hero-dust i:nth-child(5n)::after { animation-delay: -0.8s; }
+
 .hero-dust i:nth-child(1) { left: 8%; top: 22%; animation-delay: 0s; }
 .hero-dust i:nth-child(2) { left: 16%; top: 64%; width: 2px; height: 2px; animation-delay: -3s; animation-duration: 18s; }
 .hero-dust i:nth-child(3) { left: 24%; top: 38%; animation-delay: -6s; }
@@ -522,7 +534,17 @@ header {
   stroke: rgba(16, 8, 24, 0.8);
   stroke-width: 1.35;
   paint-order: stroke fill;
+  animation: hero-beat-motif 1.55s ease-in-out infinite;
 }
+
+.hero-motif-2 svg { animation-delay: -0.2s; }
+.hero-motif-3 svg { animation-delay: -0.45s; }
+.hero-motif-4 svg { animation-delay: -0.7s; }
+.hero-motif-5 svg { animation-delay: -0.15s; }
+.hero-motif-6 svg { animation-delay: -0.95s; }
+.hero-motif-7 svg { animation-delay: -0.35s; }
+.hero-motif-8 svg { animation-delay: -0.6s; }
+.hero-motif-9 svg { animation-delay: -0.85s; }
 
 .hero-motif-1 { left: 7%; top: 24%; width: 24px; color: #ff8fb3; animation-duration: 24s; }
 .hero-motif-2 { left: 18%; top: 68%; width: 22px; color: #f0c56a; animation-duration: 28s; animation-delay: -8s; }
@@ -597,6 +619,60 @@ header {
     opacity: 0;
     box-shadow: 0 0 4px 1px rgba(212, 175, 55, 0.06);
     transform: translate3d(10px, -70px, 0);
+  }
+}
+
+@keyframes hero-beat {
+  0%,
+  55%,
+  100% {
+    opacity: 0.45;
+    box-shadow: 0 0 4px 1px rgba(212, 175, 55, 0.2);
+    transform: scale(1);
+  }
+  14% {
+    opacity: 1;
+    box-shadow:
+      0 0 14px 5px rgba(255, 220, 120, 0.95),
+      0 0 26px 8px rgba(212, 175, 55, 0.5);
+    transform: scale(1.7);
+  }
+  26% {
+    opacity: 0.4;
+    box-shadow: 0 0 5px 1px rgba(212, 175, 55, 0.18);
+    transform: scale(1);
+  }
+  38% {
+    opacity: 0.92;
+    box-shadow:
+      0 0 11px 4px rgba(255, 220, 120, 0.75),
+      0 0 18px 6px rgba(212, 175, 55, 0.38);
+    transform: scale(1.4);
+  }
+}
+
+@keyframes hero-beat-motif {
+  0%,
+  55%,
+  100% {
+    filter: drop-shadow(0 0 3px currentColor);
+    transform: scale(1);
+  }
+  14% {
+    filter:
+      drop-shadow(0 0 8px currentColor)
+      drop-shadow(0 0 16px currentColor);
+    transform: scale(1.18);
+  }
+  26% {
+    filter: drop-shadow(0 0 3px currentColor);
+    transform: scale(1);
+  }
+  38% {
+    filter:
+      drop-shadow(0 0 7px currentColor)
+      drop-shadow(0 0 12px currentColor);
+    transform: scale(1.1);
   }
 }
 
@@ -1734,7 +1810,9 @@ header {
   .hero-ar,
   .hero-halo,
   .hero-dust i,
+  .hero-dust i::after,
   .hero-motif,
+  .hero-motif svg,
   .play-pulse,
   .photo-stage::before,
   .gallery-slide,
