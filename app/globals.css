@@ -431,6 +431,179 @@ header {
   );
 }
 
+.hero-studio {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout style paint;
+}
+
+.hero-halo {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(58vw, 460px);
+  height: min(58vw, 460px);
+  margin: calc(min(58vw, 460px) / -2) 0 0 calc(min(58vw, 460px) / -2);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      color-mix(in srgb, var(--slide-accent, #d4af37) 16%, transparent) 0%,
+      color-mix(in srgb, var(--slide-accent, #d4af37) 6%, transparent) 38%,
+      transparent 70%
+    );
+  filter: blur(22px);
+  mix-blend-mode: screen;
+  animation: hero-halo 8s ease-in-out infinite;
+}
+
+.hero-dust {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-dust i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f3e0a8;
+  box-shadow: 0 0 7px 2px rgba(212, 175, 55, 0.45);
+  opacity: 0;
+  animation: hero-dust 16s linear infinite;
+}
+
+.hero-dust i:nth-child(1) { left: 8%; top: 22%; animation-delay: 0s; }
+.hero-dust i:nth-child(2) { left: 16%; top: 64%; width: 2px; height: 2px; animation-delay: -3s; animation-duration: 18s; }
+.hero-dust i:nth-child(3) { left: 24%; top: 38%; animation-delay: -6s; }
+.hero-dust i:nth-child(4) { left: 33%; top: 18%; width: 2px; height: 2px; animation-delay: -2s; animation-duration: 20s; }
+.hero-dust i:nth-child(5) { left: 41%; top: 72%; animation-delay: -8s; }
+.hero-dust i:nth-child(6) { left: 58%; top: 16%; width: 2px; height: 2px; animation-delay: -4s; }
+.hero-dust i:nth-child(7) { left: 67%; top: 48%; animation-delay: -11s; animation-duration: 15s; }
+.hero-dust i:nth-child(8) { left: 74%; top: 28%; animation-delay: -1s; }
+.hero-dust i:nth-child(9) { left: 82%; top: 62%; width: 2px; height: 2px; animation-delay: -7s; }
+.hero-dust i:nth-child(10) { left: 90%; top: 36%; animation-delay: -9s; animation-duration: 19s; }
+.hero-dust i:nth-child(11) { left: 12%; top: 80%; width: 2px; height: 2px; animation-delay: -5s; }
+.hero-dust i:nth-child(12) { left: 88%; top: 78%; animation-delay: -12s; }
+.hero-dust i:nth-child(13) { left: 49%; top: 12%; width: 2px; height: 2px; animation-delay: -10s; }
+.hero-dust i:nth-child(14) { left: 71%; top: 84%; animation-delay: -14s; animation-duration: 17s; }
+.hero-dust i:nth-child(15) { left: 46%; top: 36%; animation-delay: -1.5s; animation-duration: 16s; }
+.hero-dust i:nth-child(16) { left: 54%; top: 58%; width: 2px; height: 2px; animation-delay: -7.5s; }
+.hero-dust i:nth-child(17) { left: 38%; top: 26%; animation-delay: -13s; animation-duration: 18s; }
+.hero-dust i:nth-child(18) { left: 62%; top: 70%; width: 2px; height: 2px; animation-delay: -4.5s; }
+.hero-dust i:nth-child(19) { left: 28%; top: 54%; animation-delay: -9.5s; }
+.hero-dust i:nth-child(20) { left: 76%; top: 42%; width: 2px; height: 2px; animation-delay: -15s; animation-duration: 20s; }
+
+.hero-motif {
+  position: absolute;
+  color: #ff9bb8;
+  filter: drop-shadow(0 1px 2px rgba(10, 5, 18, 0.9)) drop-shadow(0 0 6px rgba(255, 190, 210, 0.7));
+  opacity: 0.92;
+  animation: hero-motif 22s linear infinite;
+}
+
+.hero-motif svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  stroke: rgba(16, 8, 24, 0.8);
+  stroke-width: 1.35;
+  paint-order: stroke fill;
+}
+
+.hero-motif-1 { left: 7%; top: 24%; width: 24px; color: #ff8fb3; animation-duration: 24s; }
+.hero-motif-2 { left: 18%; top: 68%; width: 22px; color: #f0c56a; animation-duration: 28s; animation-delay: -8s; }
+.hero-motif-3 { left: 78%; top: 20%; width: 20px; color: #ff8fb3; animation-duration: 26s; animation-delay: -4s; }
+.hero-motif-4 { left: 86%; top: 58%; width: 26px; color: #f0c56a; animation-duration: 30s; animation-delay: -12s; }
+.hero-motif-5 { left: 10%; top: 48%; width: 18px; color: #ff8fb3; animation-duration: 21s; animation-delay: -16s; }
+.hero-motif-6 { left: 72%; top: 78%; width: 20px; color: #f0c56a; animation-duration: 25s; animation-delay: -6s; }
+.hero-motif-7 { left: 36%; top: 38%; width: 20px; color: #ff7aa6; animation: hero-motif-across 20s linear infinite; }
+.hero-motif-8 { left: 52%; top: 30%; width: 18px; color: #ff7aa6; animation: hero-motif-across 23s linear infinite -10s; }
+.hero-motif-9 { left: 44%; top: 74%; width: 18px; color: #f0c56a; animation-duration: 27s; animation-delay: -18s; }
+
+@keyframes hero-halo {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.42;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes hero-motif {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) rotate(-12deg) scale(0.85);
+  }
+  12% { opacity: 0.95; }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(12px, -40px, 0) rotate(10deg) scale(1);
+  }
+  88% { opacity: 0.7; }
+  100% {
+    opacity: 0;
+    transform: translate3d(-8px, -90px, 0) rotate(18deg) scale(0.9);
+  }
+}
+
+@keyframes hero-motif-across {
+  0% {
+    opacity: 0;
+    transform: translate3d(-12px, 18px, 0) rotate(-10deg) scale(0.8);
+  }
+  14% { opacity: 0.95; }
+  50% {
+    opacity: 0.88;
+    transform: translate3d(56px, -28px, 0) rotate(8deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(110px, -72px, 0) rotate(16deg) scale(0.88);
+  }
+}
+
+@keyframes hero-dust {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  18% { opacity: 0.75; }
+  70% { opacity: 0.55; }
+  100% {
+    opacity: 0;
+    transform: translate3d(10px, -70px, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-halo {
+    width: min(62vw, 280px);
+    height: min(62vw, 280px);
+    margin: calc(min(62vw, 280px) / -2) 0 0 calc(min(62vw, 280px) / -2);
+  }
+
+  .hero-dust i:nth-child(n + 13) {
+    display: none;
+  }
+
+  .hero-motif-5,
+  .hero-motif-6,
+  .hero-motif-9 {
+    display: none;
+  }
+
+  .hero-motif {
+    width: 16px;
+  }
+}
+
 .hero-copy-in > *:not(.hero-title):not(.hero-rule) {
   animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -1541,6 +1714,9 @@ header {
   .hero-last span,
   .hero-rule,
   .hero-ar,
+  .hero-halo,
+  .hero-dust i,
+  .hero-motif,
   .play-pulse,
   .photo-stage::before,
   .gallery-slide,

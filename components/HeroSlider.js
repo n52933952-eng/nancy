@@ -28,32 +28,41 @@ export default function HeroSlider({ onTheme }) {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const startX = useRef(0);
+  const startedAt = useRef(typeof performance === "undefined" ? 0 : performance.now());
+  const countRef = useRef(slides.length);
   const slide = slides[index] || slides[0];
   const theme = resolveTone(slide?.theme);
+  const total = slides.length || 1;
+  countRef.current = total;
 
-  const go = useCallback(
-    (next) => {
-      setIndex((current) => {
-        const total = slides.length || 1;
-        return (next + total) % total;
-      });
-      setProgress(0);
-    },
-    [slides.length],
-  );
+  const go = useCallback((next) => {
+    setIndex((current) => {
+      const count = countRef.current || 1;
+      return ((typeof next === "number" ? next : current + 1) + count) % count;
+    });
+    setProgress(0);
+    startedAt.current = performance.now();
+  }, []);
 
   useEffect(() => {
-    const started = Date.now();
-    const tick = window.setInterval(() => {
-      const elapsed = Date.now() - started;
-      setProgress(Math.min(100, (elapsed / INTERVAL) * 100));
-    }, 80);
-    const change = window.setTimeout(() => go(index + 1), INTERVAL);
-    return () => {
-      window.clearInterval(tick);
-      window.clearTimeout(change);
+    let frame = 0;
+    let lastPaint = 0;
+    const tick = (now) => {
+      const elapsed = now - startedAt.current;
+      if (elapsed >= INTERVAL) {
+        startedAt.current = now;
+        lastPaint = now;
+        setProgress(0);
+        setIndex((current) => (current + 1) % (countRef.current || 1));
+      } else if (now - lastPaint > 120) {
+        lastPaint = now;
+        setProgress(Math.min(100, (elapsed / INTERVAL) * 100));
+      }
+      frame = window.requestAnimationFrame(tick);
     };
-  }, [go, index]);
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     onTheme?.(theme);
@@ -83,47 +92,82 @@ export default function HeroSlider({ onTheme }) {
         "--slide-accent": theme.accent,
       }}
     >
-      {slides.map((slide, i) => (
-        <div
-          key={slide.src}
-          className={`absolute inset-0 transition-opacity duration-700 ease-out ${
-            i === index ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Image
-            src={mediaUrl(slide.src)}
-            alt=""
-            fill
-            priority={i === 0}
-            sizes="100vw"
-            quality={100}
-            unoptimized
-            aria-hidden
-            className="scale-110 object-cover blur-2xl"
-            style={{ objectPosition: slide.position }}
-          />
-          <div className="absolute inset-0 bg-night/45" />
-          <Image
-            src={mediaUrl(slide.src)}
-            alt={slide.alt}
-            fill
-            priority={i === 0}
-            sizes="100vw"
-            quality={100}
-            unoptimized
-            className="object-contain"
-            style={{ objectPosition: "center center" }}
-          />
-          {i === index ? (
-            <>
-              <div className="hero-glow absolute inset-0" />
-              <div className="hero-shine absolute inset-0" />
-            </>
-          ) : null}
-        </div>
+      {slides.map((item, i) => (
+          <div
+            key={item.src}
+            className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+              i === index ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={mediaUrl(item.src)}
+              alt=""
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              quality={100}
+              unoptimized
+              aria-hidden
+              className="scale-110 object-cover blur-2xl"
+              style={{ objectPosition: item.position }}
+            />
+            <div className="absolute inset-0 bg-night/45" />
+            <Image
+              src={mediaUrl(item.src)}
+              alt={item.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              quality={100}
+              unoptimized
+              className="object-contain"
+              style={{ objectPosition: "center center" }}
+            />
+            {i === index ? (
+              <>
+                <div className="hero-glow absolute inset-0" />
+                <div className="hero-shine absolute inset-0" />
+              </>
+            ) : null}
+          </div>
       ))}
 
       <div className="hero-veil pointer-events-none absolute inset-0" />
+      <div className="hero-studio" aria-hidden="true">
+        <span className="hero-halo" />
+        <span className="hero-dust">
+          {Array.from({ length: 20 }, (_, i) => (
+            <i key={i} />
+          ))}
+        </span>
+        <span className="hero-motif hero-motif-1">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-2">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6.1" r="3"/><circle cx="17.6" cy="9.6" r="3"/><circle cx="15.5" cy="15.9" r="3"/><circle cx="8.5" cy="15.9" r="3"/><circle cx="6.4" cy="9.6" r="3"/><circle cx="12" cy="12" r="2.15" fill="#fff3c4"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-3">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-4">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6.1" r="3"/><circle cx="17.6" cy="9.6" r="3"/><circle cx="15.5" cy="15.9" r="3"/><circle cx="8.5" cy="15.9" r="3"/><circle cx="6.4" cy="9.6" r="3"/><circle cx="12" cy="12" r="2.15" fill="#fff3c4"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-5">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-6">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6.1" r="3"/><circle cx="17.6" cy="9.6" r="3"/><circle cx="15.5" cy="15.9" r="3"/><circle cx="8.5" cy="15.9" r="3"/><circle cx="6.4" cy="9.6" r="3"/><circle cx="12" cy="12" r="2.15" fill="#fff3c4"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-across hero-motif-7">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-across hero-motif-8">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span className="hero-motif hero-motif-9">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6.1" r="3"/><circle cx="17.6" cy="9.6" r="3"/><circle cx="15.5" cy="15.9" r="3"/><circle cx="8.5" cy="15.9" r="3"/><circle cx="6.4" cy="9.6" r="3"/><circle cx="12" cy="12" r="2.15" fill="#fff3c4"/></svg>
+        </span>
+      </div>
 
       <div
         className="hero-copy pointer-events-none relative z-10 flex h-full flex-col justify-end px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-10 sm:pb-20 lg:px-16"
@@ -155,10 +199,7 @@ export default function HeroSlider({ onTheme }) {
               key={item.src}
               type="button"
               aria-label={`Photo ${i + 1}`}
-              onClick={() => {
-                setIndex(i);
-                setProgress(0);
-              }}
+              onClick={() => go(i)}
               className="hero-tick relative h-[2px] flex-1 max-w-16 overflow-hidden"
             >
               <span
