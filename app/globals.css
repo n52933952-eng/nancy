@@ -479,9 +479,14 @@ header {
 .hero-dust i::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
   border-radius: 50%;
-  animation: hero-beat 2.85s ease-in-out infinite;
+  background: #f3e0a8;
+  animation: hero-beat 2.4s ease-in-out infinite;
 }
 
 .hero-dust i:nth-child(3n)::after { animation-delay: -0.25s; }
@@ -534,7 +539,7 @@ header {
   stroke: rgba(16, 8, 24, 0.8);
   stroke-width: 1.35;
   paint-order: stroke fill;
-  animation: hero-beat-motif 2.85s ease-in-out infinite;
+  animation: hero-beat-motif 2.4s ease-in-out infinite;
 }
 
 .hero-motif-2 svg { animation-delay: -0.2s; }
@@ -608,12 +613,12 @@ header {
     transform: translate3d(0, 18px, 0);
   }
   18% {
-    opacity: 0.62;
-    box-shadow: 0 0 7px 2px rgba(232, 196, 90, 0.38);
+    opacity: 0.86;
+    box-shadow: 0 0 6px 2px rgba(232, 196, 90, 0.28);
   }
   70% {
-    opacity: 0.32;
-    box-shadow: 0 0 5px 1px rgba(212, 175, 55, 0.18);
+    opacity: 0.72;
+    box-shadow: 0 0 5px 1px rgba(212, 175, 55, 0.16);
   }
   100% {
     opacity: 0;
@@ -626,24 +631,24 @@ header {
   0%,
   60%,
   100% {
-    opacity: 0.28;
-    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.12);
+    opacity: 0.5;
+    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.22);
     transform: scale(1);
   }
   16% {
-    opacity: 0.7;
-    box-shadow: 0 0 8px 3px rgba(232, 196, 90, 0.42);
-    transform: scale(1.2);
+    opacity: 1;
+    box-shadow: 0 0 9px 3px rgba(232, 196, 90, 0.55);
+    transform: scale(1.45);
   }
   28% {
-    opacity: 0.3;
-    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.12);
+    opacity: 0.5;
+    box-shadow: 0 0 3px 1px rgba(212, 175, 55, 0.2);
     transform: scale(1);
   }
   40% {
-    opacity: 0.58;
-    box-shadow: 0 0 6px 2px rgba(232, 196, 90, 0.3);
-    transform: scale(1.1);
+    opacity: 0.88;
+    box-shadow: 0 0 7px 2px rgba(232, 196, 90, 0.4);
+    transform: scale(1.25);
   }
 }
 
