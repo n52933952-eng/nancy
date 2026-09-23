@@ -470,8 +470,8 @@ header {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #f8e7b0;
-  box-shadow: 0 0 10px 3px rgba(232, 196, 90, 0.7);
+  background: #f3e0a8;
+  box-shadow: 0 0 6px 1px rgba(212, 175, 55, 0.2);
   opacity: 0;
   animation: hero-dust 16s linear infinite;
 }
@@ -582,12 +582,20 @@ header {
 @keyframes hero-dust {
   0% {
     opacity: 0;
+    box-shadow: 0 0 4px 1px rgba(212, 175, 55, 0.08);
     transform: translate3d(0, 18px, 0);
   }
-  18% { opacity: 0.75; }
-  70% { opacity: 0.55; }
+  18% {
+    opacity: 0.88;
+    box-shadow: 0 0 12px 3px rgba(232, 196, 90, 0.8);
+  }
+  70% {
+    opacity: 0.4;
+    box-shadow: 0 0 7px 2px rgba(212, 175, 55, 0.3);
+  }
   100% {
     opacity: 0;
+    box-shadow: 0 0 4px 1px rgba(212, 175, 55, 0.06);
     transform: translate3d(10px, -70px, 0);
   }
 }
