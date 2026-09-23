@@ -136,7 +136,7 @@ export default function HeroSlider({ onTheme }) {
       <div className="hero-studio" aria-hidden="true">
         <span className="hero-halo" />
         <span className="hero-dust">
-          {Array.from({ length: 20 }, (_, i) => (
+          {Array.from({ length: 30 }, (_, i) => (
             <i key={i} />
           ))}
         </span>

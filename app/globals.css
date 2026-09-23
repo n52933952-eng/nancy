@@ -470,8 +470,8 @@ header {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #f3e0a8;
-  box-shadow: 0 0 7px 2px rgba(212, 175, 55, 0.45);
+  background: #f8e7b0;
+  box-shadow: 0 0 10px 3px rgba(232, 196, 90, 0.7);
   opacity: 0;
   animation: hero-dust 16s linear infinite;
 }
@@ -496,6 +496,16 @@ header {
 .hero-dust i:nth-child(18) { left: 62%; top: 70%; width: 2px; height: 2px; animation-delay: -4.5s; }
 .hero-dust i:nth-child(19) { left: 28%; top: 54%; animation-delay: -9.5s; }
 .hero-dust i:nth-child(20) { left: 76%; top: 42%; width: 2px; height: 2px; animation-delay: -15s; animation-duration: 20s; }
+.hero-dust i:nth-child(21) { left: 79%; top: 18%; animation-delay: -2.2s; animation-duration: 17s; }
+.hero-dust i:nth-child(22) { left: 84%; top: 46%; width: 2px; height: 2px; animation-delay: -8.4s; }
+.hero-dust i:nth-child(23) { left: 88%; top: 24%; animation-delay: -5.6s; animation-duration: 19s; }
+.hero-dust i:nth-child(24) { left: 91%; top: 58%; width: 2px; height: 2px; animation-delay: -11.2s; }
+.hero-dust i:nth-child(25) { left: 93%; top: 34%; animation-delay: -0.8s; animation-duration: 16s; }
+.hero-dust i:nth-child(26) { left: 81%; top: 72%; width: 2px; height: 2px; animation-delay: -14.5s; }
+.hero-dust i:nth-child(27) { left: 86%; top: 86%; animation-delay: -6.8s; animation-duration: 21s; }
+.hero-dust i:nth-child(28) { left: 95%; top: 68%; width: 2px; height: 2px; animation-delay: -3.4s; }
+.hero-dust i:nth-child(29) { left: 73%; top: 14%; animation-delay: -12.6s; animation-duration: 18s; }
+.hero-dust i:nth-child(30) { left: 97%; top: 48%; animation-delay: -9.8s; animation-duration: 20s; }
 
 .hero-motif {
   position: absolute;
