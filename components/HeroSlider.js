@@ -199,15 +199,13 @@ export default function HeroSlider({ onTheme }) {
         <div key={slide.src} className="hero-copy-in">
           <p className="hero-kicker">{copy.unofficial[lang]}</p>
           <h1 className="hero-title">
-            <Letters text="Nancy" className="hero-first" />
-            <Letters text="Ajram" className="hero-last" delay={220} />
-            <span className="hero-name-hearts" aria-hidden="true">
-              <span className="hero-name-heart hero-name-heart-1"><NameHeart /></span>
-              <span className="hero-name-heart hero-name-heart-2"><NameHeart /></span>
-              <span className="hero-name-heart hero-name-heart-3"><NameHeart /></span>
-              <span className="hero-name-heart hero-name-heart-4"><NameHeart /></span>
-              <span className="hero-name-heart hero-name-heart-5"><NameHeart /></span>
+            <span className="hero-name-row">
+              <Letters text="Nancy" className="hero-first" />
+              <span className="hero-name-heart" aria-hidden="true">
+                <NameHeart />
+              </span>
             </span>
+            <Letters text="Ajram" className="hero-last" delay={220} />
           </h1>
           <p className="hero-ar">{copy.brandAr}</p>
           <span className="hero-rule" />
