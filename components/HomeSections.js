@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import AlbumGrid from "@/components/AlbumGrid";
 import GallerySlider from "@/components/GallerySlider";
+import MotionSection from "@/components/MotionSection";
 import NewsStrip from "@/components/NewsStrip";
 import VideoLightbox from "@/components/VideoLightbox";
 import { mediaUrl } from "@/data/media";
@@ -97,16 +98,16 @@ export default function HomeSections() {
 
   return (
     <div>
-      <section id="music" className="band-gold page-section">
+      <MotionSection id="music" className="band-gold page-section">
         <div className="mx-auto max-w-7xl px-4 pb-16 pt-3 sm:px-8">
           <Reveal>
             <SectionHead compact kicker={copy.musicPage.kicker} title={copy.musicPage.title} />
             <AlbumGrid compact />
           </Reveal>
         </div>
-      </section>
+      </MotionSection>
 
-      <section id="gallery" className="band-gold page-section">
+      <MotionSection id="gallery" className="band-gold page-section">
         <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-8">
           <Reveal>
             <SectionHead
@@ -118,9 +119,9 @@ export default function HomeSections() {
           </Reveal>
           <GallerySlider items={gallerySlides} />
         </div>
-      </section>
+      </MotionSection>
 
-      <section id="videos" className="band-plum page-section">
+      <MotionSection id="videos" className="band-plum page-section">
         <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-8">
           <Reveal>
             <SectionHead compact kicker={copy.videosPage.kicker} title={copy.videosPage.title} href="/videos" />
@@ -157,9 +158,9 @@ export default function HomeSections() {
           </Reveal>
         </div>
         <VideoLightbox clip={activeClip} onClose={() => setActiveClip(null)} />
-      </section>
+      </MotionSection>
 
-      <section id="biography" className="band-plum page-section">
+      <MotionSection id="biography" className="band-plum page-section">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
           <Reveal>
             <SectionHead kicker={copy.bioPage.kicker} title={copy.bioPage.title} href="/biography" />
@@ -181,16 +182,16 @@ export default function HomeSections() {
             </div>
           </Reveal>
         </div>
-      </section>
+      </MotionSection>
 
-      <section id="news" className="band-gold page-section">
+      <MotionSection id="news" className="band-gold page-section">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-8">
           <Reveal>
             <SectionHead kicker={copy.newsPage.kicker} title={copy.newsPage.title} href="/news" />
             <NewsStrip items={news} />
           </Reveal>
         </div>
-      </section>
+      </MotionSection>
     </div>
   );
 }

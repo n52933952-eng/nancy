@@ -69,6 +69,7 @@ export default function GallerySlider({ items }) {
   return (
     <div
       ref={stageRef}
+      data-motion={inView ? "on" : "off"}
       className="gallery-slider"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

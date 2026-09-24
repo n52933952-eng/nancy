@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { mediaUrl } from "@/data/media";
 import { resolveTone } from "@/data/heroTone";
+import { useMotionGate } from "@/lib/useMotionGate";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
@@ -29,7 +30,9 @@ export default function HeroSlider({ onTheme }) {
   const [progress, setProgress] = useState(0);
   const startX = useRef(0);
   const startedAt = useRef(typeof performance === "undefined" ? 0 : performance.now());
+  const frozenElapsed = useRef(0);
   const countRef = useRef(slides.length);
+  const { ref: motionRef, active, motion } = useMotionGate(0.2);
   const slide = slides[index] || slides[0];
   const theme = resolveTone(slide?.theme);
   const total = slides.length || 1;
@@ -42,15 +45,26 @@ export default function HeroSlider({ onTheme }) {
     });
     setProgress(0);
     startedAt.current = performance.now();
+    frozenElapsed.current = 0;
   }, []);
 
   useEffect(() => {
+    if (!active) {
+      frozenElapsed.current = Math.min(
+        INTERVAL,
+        Math.max(0, performance.now() - startedAt.current),
+      );
+      return undefined;
+    }
+
+    startedAt.current = performance.now() - frozenElapsed.current;
     let frame = 0;
     let lastPaint = 0;
     const tick = (now) => {
       const elapsed = now - startedAt.current;
       if (elapsed >= INTERVAL) {
         startedAt.current = now;
+        frozenElapsed.current = 0;
         lastPaint = now;
         setProgress(0);
         setIndex((current) => (current + 1) % (countRef.current || 1));
@@ -62,7 +76,7 @@ export default function HeroSlider({ onTheme }) {
     };
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [active]);
 
   useEffect(() => {
     onTheme?.(theme);
@@ -84,6 +98,8 @@ export default function HeroSlider({ onTheme }) {
   return (
     <section
       id="home"
+      ref={motionRef}
+      data-motion={motion}
       className="relative h-[100svh] min-h-[520px] overflow-hidden bg-night sm:h-dvh sm:min-h-[640px]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}

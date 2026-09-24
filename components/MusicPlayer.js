@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { mediaUrl } from "@/data/media";
 import { pauseHome } from "@/lib/homeAudio";
+import { useMotionGate } from "@/lib/useMotionGate";
 import { loadYouTubeApi, youtubeId } from "@/lib/youtube";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
@@ -32,7 +33,7 @@ export default function MusicPlayer() {
   const [duration, setDuration] = useState(0);
   const hostRef = useRef(null);
   const playerRef = useRef(null);
-  const stageRef = useRef(null);
+  const { ref: stageRef, active, motion } = useMotionGate(0.12);
   const track = album?.tracks?.[current];
   const video = youtubeId(track?.youtube);
   const cover = track?.cover || album?.cover;
@@ -132,6 +133,7 @@ export default function MusicPlayer() {
       stageRef.current?.style.setProperty("--beat", "0");
       return undefined;
     }
+    if (!active) return undefined;
 
     const clock = window.setInterval(() => {
       const player = playerRef.current;
@@ -153,7 +155,7 @@ export default function MusicPlayer() {
       window.cancelAnimationFrame(frame);
       stageRef.current?.style.setProperty("--beat", "0");
     };
-  }, [playing, ready]);
+  }, [playing, ready, active]);
 
   function select(i) {
     if (!album) return;
@@ -165,7 +167,7 @@ export default function MusicPlayer() {
   if (!album) return null;
 
   return (
-    <div ref={stageRef} className="music-stage mx-auto max-w-7xl px-4 pt-20 sm:px-8">
+    <div ref={stageRef} data-motion={motion} className="music-stage mx-auto max-w-7xl px-4 pt-20 sm:px-8">
       <div className="grid items-start gap-5 sm:grid-cols-[260px_minmax(0,1fr)]">
         <div>
           <div className="news-shot mx-auto w-full max-w-[200px] sm:max-w-none">

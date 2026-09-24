@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import MotionSection from "@/components/MotionSection";
 import Navbar from "@/components/Navbar";
 import { mediaUrl } from "@/data/media";
 import { useContent } from "@/components/ContentProvider";
@@ -28,7 +29,7 @@ export default function NewsArticle() {
   return (
     <>
       <Navbar />
-      <main className="pb-24">
+      <MotionSection as="main" className="pb-24">
         <article className="news-story mx-auto max-w-3xl px-4 pt-22 sm:px-8 sm:pt-24">
           <h1 className="news-title font-display text-3xl sm:text-4xl">{item.title[lang]}</h1>
           <div className="gold-line news-rule mt-3" />
@@ -56,7 +57,7 @@ export default function NewsArticle() {
             <p className="news-body mt-8 max-w-2xl whitespace-pre-wrap text-base leading-8">{body}</p>
           ) : null}
         </article>
-      </main>
+      </MotionSection>
     </>
   );
 }

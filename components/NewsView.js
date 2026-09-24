@@ -1,5 +1,6 @@
 "use client";
 
+import MotionSection from "@/components/MotionSection";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
 import { NewsCard } from "@/components/NewsStrip";
@@ -11,14 +12,14 @@ export default function NewsView() {
   return (
     <>
       <Navbar />
-      <main className="pb-20">
+      <MotionSection as="main" className="pb-20">
         <PageHeader {...copy.newsPage} />
         <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
           {news.map((item) => (
             <NewsCard key={item.id} item={item} excerpt />
           ))}
         </div>
-      </main>
+      </MotionSection>
     </>
   );
 }
