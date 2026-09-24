@@ -6,6 +6,8 @@ export const metadata = {
   title: "Gallery",
   description:
     "Nancy Ajram photo gallery — portraits and looks of نانسي عجرم in one elegant frame.",
+  alternates: { canonical: "/gallery" },
+  openGraph: { url: "/gallery" },
 };
 
 export default function GalleryPage() {

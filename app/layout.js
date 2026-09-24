@@ -56,7 +56,6 @@ export const metadata = {
     title: "Nancy Ajram (Nancy) | نانسي عجرم",
     description:
       "Nancy — Nancy Ajram — نانسي عجرم. Music, official-style clips, gallery and her story from Beirut.",
-    url: "/",
     siteName: "Nancy Ajram | نانسي عجرم",
     locale: "en_US",
     alternateLocale: ["ar_AR"],
@@ -70,7 +69,6 @@ export const metadata = {
     images: ["/images/slide-fur.jpg"],
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
 };
 
 const personJsonLd = {

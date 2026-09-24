@@ -6,6 +6,8 @@ export const metadata = {
   title: "Videos",
   description:
     "Nancy Ajram video clips — watch نانسي عجرم official-style music videos and live moments.",
+  alternates: { canonical: "/videos" },
+  openGraph: { url: "/videos" },
 };
 
 export default function VideosPage() {

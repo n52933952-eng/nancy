@@ -6,6 +6,8 @@ export const metadata = {
   title: "Music",
   description:
     "Nancy Ajram albums — آه ونص, يا طبطب and more. Listen to نانسي عجرم.",
+  alternates: { canonical: "/music" },
+  openGraph: { url: "/music" },
 };
 
 export default function MusicPage() {
