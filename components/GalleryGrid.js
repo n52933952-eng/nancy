@@ -24,7 +24,7 @@ function Shot({ item, index, lit, bind, onOpen, className = "", sizes }) {
         quality={100}
         sizes={sizes}
         className="object-cover"
-        style={{ objectPosition: item.objectPosition || "center 18%" }}
+        style={{ objectPosition: item.objectPosition || "center 24%" }}
       />
       <span className="atelier-tile-shine" />
       <span className="photo-corners" />

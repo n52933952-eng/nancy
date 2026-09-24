@@ -23,6 +23,14 @@ function Letters({ text, className, delay = 0 }) {
   );
 }
 
+function NameHeart() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+  );
+}
+
 export default function HeroSlider({ onTheme }) {
   const { lang } = useLang();
   const { slides, copy } = useContent();
@@ -191,7 +199,16 @@ export default function HeroSlider({ onTheme }) {
         <div key={slide.src} className="hero-copy-in">
           <p className="hero-kicker">{copy.unofficial[lang]}</p>
           <h1 className="hero-title">
-            <Letters text="Nancy" className="hero-first" />
+            <span className="hero-name-row">
+              <Letters text="Nancy" className="hero-first" />
+              <span className="hero-name-hearts" aria-hidden="true">
+                <span className="hero-name-heart hero-name-heart-1"><NameHeart /></span>
+                <span className="hero-name-heart hero-name-heart-2"><NameHeart /></span>
+                <span className="hero-name-heart hero-name-heart-3"><NameHeart /></span>
+                <span className="hero-name-heart hero-name-heart-4"><NameHeart /></span>
+                <span className="hero-name-heart hero-name-heart-5"><NameHeart /></span>
+              </span>
+            </span>
             <Letters text="Ajram" className="hero-last" delay={220} />
           </h1>
           <p className="hero-ar">{copy.brandAr}</p>
