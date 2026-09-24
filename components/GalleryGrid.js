@@ -7,12 +7,12 @@ import { useAutoLight } from "@/lib/useAutoLight";
 import { useContent } from "./ContentProvider";
 import { useLang } from "./LanguageProvider";
 
-function Shot({ item, index, lit, bind, onOpen, className = "", sizes }) {
+function Shot({ item, index, lit, inView, bind, onOpen, className = "", sizes }) {
   return (
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className={`tile-in group atelier-tile ${className} ${lit === index ? "is-lit" : ""}`}
+      className={`tile-in group atelier-tile ${className} ${inView ? "is-inview" : ""} ${lit === index ? "is-lit" : ""}`}
       style={{ "--d": `${index * 40}ms` }}
       {...bind(index)}
     >
@@ -37,7 +37,7 @@ export default function GalleryGrid() {
   const { lang } = useLang();
   const { copy, gallery } = useContent();
   const [open, setOpen] = useState(null);
-  const { lit, bind, ref } = useAutoLight(gallery.length, Boolean(open));
+  const { lit, visible, bind, ref } = useAutoLight(gallery.length, Boolean(open), { cycle: false });
   const stripRef = useRef(null);
   const openIndex = open ? gallery.findIndex((item) => item.src === open.src) : -1;
 
@@ -71,6 +71,7 @@ export default function GalleryGrid() {
         item={item}
         index={index}
         lit={lit}
+        inView={visible.includes(index)}
         bind={bind}
         onOpen={setOpen}
         className={className}
