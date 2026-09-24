@@ -62,18 +62,22 @@ export default function GalleryGrid() {
     active?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [openIndex]);
 
-  const shot = (index, className, sizes) => (
-    <Shot
-      key={gallery[index].src}
-      item={gallery[index]}
-      index={index}
-      lit={lit}
-      bind={bind}
-      onOpen={setOpen}
-      className={className}
-      sizes={sizes}
-    />
-  );
+  const shot = (index, className, sizes) => {
+    const item = gallery[index];
+    if (!item) return null;
+    return (
+      <Shot
+        key={item.src}
+        item={item}
+        index={index}
+        lit={lit}
+        bind={bind}
+        onOpen={setOpen}
+        className={className}
+        sizes={sizes}
+      />
+    );
+  };
 
   return (
     <>

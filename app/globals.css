@@ -1797,6 +1797,18 @@ header {
   animation-play-state: paused !important;
 }
 
+[data-motion="off"] .tile-in,
+[data-motion="off"] .gold-line-draw,
+[data-motion="off"] .hero-copy-in > *,
+[data-motion="off"] .hero-first span,
+[data-motion="off"] .hero-last span,
+[data-motion="off"] .hero-rule,
+[data-motion="off"] .hero-ar {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
