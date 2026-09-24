@@ -3,11 +3,11 @@ import Navbar from "@/components/Navbar";
 import VideoGrid from "@/components/VideoGrid";
 
 export const metadata = {
-  title: "Videos",
+  title: { absolute: "Nancy Ajram Music Videos | كليبات نانسي عجرم" },
   description:
-    "Nancy Ajram video clips — watch نانسي عجرم official-style music videos and live moments.",
+    "Watch Nancy Ajram music videos and clips — Shhadi Ya Deni, Aala Shanak, Tegy Nenbeset and more. كليبات نانسي عجرم.",
   alternates: { canonical: "/videos" },
-  openGraph: { url: "/videos" },
+  openGraph: { url: "/videos", title: "Nancy Ajram Music Videos | كليبات نانسي عجرم" },
 };
 
 export default function VideosPage() {

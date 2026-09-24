@@ -31,11 +31,11 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Nancy Ajram (Nancy) | نانسي عجرم — Music, Videos & Biography",
+    default: "Nancy Ajram | نانسي عجرم — Songs, Videos & Biography",
     template: "%s | Nancy Ajram | نانسي عجرم",
   },
   description:
-    "Nancy Ajram — also searched as Nancy and نانسي عجرم — Lebanese Queen of Arab Pop. Listen to Ah W Noss, Ya Tabtab and more. Videos, gallery, biography and news.",
+    "Nancy Ajram (نانسي عجرم) fan site — songs, albums, music videos, photos, biography and news of the Lebanese Queen of Arab Pop.",
   keywords: [
     "Nancy",
     "Nancy Ajram",
@@ -53,9 +53,9 @@ export const metadata = {
     "Queen of Arab Pop",
   ],
   openGraph: {
-    title: "Nancy Ajram (Nancy) | نانسي عجرم",
+    title: "Nancy Ajram | نانسي عجرم — Songs, Videos & Biography",
     description:
-      "Nancy — Nancy Ajram — نانسي عجرم. Music, official-style clips, gallery and her story from Beirut.",
+      "Nancy Ajram (نانسي عجرم) fan site — songs, albums, music videos, photos, biography and news.",
     siteName: "Nancy Ajram | نانسي عجرم",
     locale: "en_US",
     alternateLocale: ["ar_AR"],
@@ -64,8 +64,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nancy Ajram (Nancy) | نانسي عجرم",
-    description: "Nancy Ajram — نانسي عجرم. Music, videos, gallery and biography.",
+    title: "Nancy Ajram | نانسي عجرم — Songs, Videos & Biography",
+    description: "Nancy Ajram (نانسي عجرم) — songs, videos, photos and biography.",
     images: ["/images/slide-fur.jpg"],
   },
   robots: { index: true, follow: true },

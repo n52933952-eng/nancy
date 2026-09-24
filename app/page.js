@@ -1,11 +1,11 @@
 import HomeView from "@/components/HomeView";
 
 export const metadata = {
-  title: { absolute: "Nancy Ajram (Nancy) | نانسي عجرم — Queen of Arab Pop" },
+  title: { absolute: "Nancy Ajram | نانسي عجرم — Songs, Videos & Biography" },
   description:
-    "Nancy Ajram — Nancy — نانسي عجرم. Lebanese Arab pop icon. Music, Ah W Noss, videos, gallery and biography.",
+    "Nancy Ajram (نانسي عجرم) fan site. Listen to her songs, watch music videos, browse photos, and read her biography.",
   alternates: { canonical: "/" },
-  openGraph: { url: "/" },
+  openGraph: { url: "/", title: "Nancy Ajram | نانسي عجرم — Songs, Videos & Biography" },
 };
 
 export default function Home() {

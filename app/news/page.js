@@ -1,11 +1,11 @@
 import NewsView from "@/components/NewsView";
 
 export const metadata = {
-  title: "News",
+  title: { absolute: "Nancy Ajram News | أخبار نانسي عجرم" },
   description:
-    "Nancy Ajram news and highlights — latest notes about نانسي عجرم from a fan site.",
+    "Nancy Ajram news and highlights — latest fan-site notes about نانسي عجرم. أخبار نانسي عجرم.",
   alternates: { canonical: "/news" },
-  openGraph: { url: "/news" },
+  openGraph: { url: "/news", title: "Nancy Ajram News | أخبار نانسي عجرم" },
 };
 
 export default function NewsPage() {

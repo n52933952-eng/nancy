@@ -3,11 +3,11 @@ import MusicPlayer from "@/components/MusicPlayer";
 import Navbar from "@/components/Navbar";
 
 export const metadata = {
-  title: "Music",
+  title: { absolute: "Nancy Ajram Songs and Albums | أغاني نانسي عجرم" },
   description:
-    "Nancy Ajram albums — آه ونص, يا طبطب and more. Listen to نانسي عجرم.",
+    "Nancy Ajram songs and albums — Ah W Noss, Ya Tabtab, Ya Kather and more. Listen to أغاني نانسي عجرم.",
   alternates: { canonical: "/music" },
-  openGraph: { url: "/music" },
+  openGraph: { url: "/music", title: "Nancy Ajram Songs and Albums | أغاني نانسي عجرم" },
 };
 
 export default function MusicPage() {

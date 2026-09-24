@@ -3,11 +3,11 @@ import GalleryGrid from "@/components/GalleryGrid";
 import Navbar from "@/components/Navbar";
 
 export const metadata = {
-  title: "Gallery",
+  title: { absolute: "Nancy Ajram Photos | صور نانسي عجرم" },
   description:
-    "Nancy Ajram photo gallery — portraits and looks of نانسي عجرم in one elegant frame.",
+    "Nancy Ajram photo gallery — portraits, stage looks and photos of نانسي عجرم. صور نانسي عجرم.",
   alternates: { canonical: "/gallery" },
-  openGraph: { url: "/gallery" },
+  openGraph: { url: "/gallery", title: "Nancy Ajram Photos | صور نانسي عجرم" },
 };
 
 export default function GalleryPage() {

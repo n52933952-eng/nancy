@@ -1,11 +1,11 @@
 import BioView from "@/components/BioView";
 
 export const metadata = {
-  title: "Biography",
+  title: { absolute: "Nancy Ajram Biography | سيرة نانسي عجرم" },
   description:
-    "Nancy Ajram biography — نانسي عجرم from Beirut to Arab pop icon. Career, UNICEF, awards.",
+    "Nancy Ajram biography — born in Beirut, Lebanese Queen of Arab Pop. Career, awards and UNICEF. سيرة نانسي عجرم.",
   alternates: { canonical: "/biography" },
-  openGraph: { url: "/biography" },
+  openGraph: { url: "/biography", title: "Nancy Ajram Biography | سيرة نانسي عجرم" },
 };
 
 export default function BiographyPage() {
